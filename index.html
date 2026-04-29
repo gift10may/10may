@@ -1,1 +1,911 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى أنس</title>
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap)" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --black: #0a0a0a;
+            --black-light: #111111;
+            --white: #ffffff;
+            --gold: #c9a227;
+            --gold-light: #d4af37;
+            --gray: #2a2a2a;
+            --gray-light: #888888;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        /* Stars Background */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--white);
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: var(--opacity); transform: scale(1); }
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(201, 162, 39, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ambientPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes ambientPulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Page Sections */
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Login Page */
+        #login-page {
+            background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 50%, #0a0a0a 100%);
+        }
+
+        .main-title {
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards;
+            background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 50%, var(--white) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 60px rgba(201, 162, 39, 0.4));
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.3s forwards;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        /* Countdown */
+        .countdown-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.5s forwards;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .countdown-item {
+            text-align: center;
+            min-width: 85px;
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        .countdown-number {
+            font-size: clamp(2.2rem, 7vw, 3.5rem);
+            font-weight: 700;
+            color: var(--white);
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+
+        /* Login Form */
+        .login-form {
+            width: 100%;
+            max-width: 360px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.7s forwards;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.4s ease;
+            text-align: right;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: rgba(201, 162, 39, 0.5);
+            background: rgba(201, 162, 39, 0.03);
+            box-shadow: 0 0 40px rgba(201, 162, 39, 0.08);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 40px;
+            background: transparent;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            color: var(--gold);
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(201, 162, 39, 0.25);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 18px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* Welcome Page */
+        #welcome-page {
+            display: none;
+            background: radial-gradient(ellipse at center, #0f0f0f 0%, #0a0a0a 70%);
+        }
+
+        .welcome-title {
+            font-size: clamp(2.8rem, 9vw, 5.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0;
+            background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(201, 162, 39, 0.3));
+        }
+
+        .welcome-subtitle {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: var(--gray-light);
+            font-weight: 300;
+            margin-bottom: 50px;
+            opacity: 0;
+            letter-spacing: 2px;
+        }
+
+        .btn-start {
+            opacity: 0;
+            padding: 14px 55px;
+            font-size: 0.95rem;
+            width: auto;
+        }
+
+        /* Poem Page */
+        #poem-page {
+            display: none;
+            padding: 100px 20px;
+            min-height: auto;
+        }
+
+        .poem-container {
+            max-width: 850px;
+            width: 100%;
+        }
+
+        .poem-title {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: var(--gold);
+            margin-bottom: 70px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            letter-spacing: 2px;
+        }
+
+        .poem-verse {
+            font-size: clamp(1.15rem, 2.8vw, 1.45rem);
+            line-height: 2.4;
+            margin-bottom: 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.88);
+            padding: 0 10px;
+        }
+
+        .poem-verse.highlight {
+            color: var(--gold-light);
+            font-weight: 500;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .poem-divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 40px auto;
+            opacity: 0;
+        }
+
+        .btn-next {
+            margin-top: 70px;
+            opacity: 0;
+            padding: 14px 45px;
+            width: auto;
+        }
+
+        /* Message Page */
+        #message-page {
+            display: none;
+            padding: 100px 20px;
+        }
+
+        .message-container {
+            max-width: 720px;
+            width: 100%;
+        }
+
+        .message-title {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: var(--gold);
+            margin-bottom: 55px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            letter-spacing: 2px;
+        }
+
+        .message-text {
+            font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+            line-height: 2.5;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            opacity: 0;
+        }
+
+        .message-text p {
+            margin-bottom: 35px;
+        }
+
+        .message-signature {
+            color: var(--gold-light);
+            font-weight: 500;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .btn-final {
+            margin-top: 60px;
+            opacity: 0;
+            width: auto;
+            padding: 14px 45px;
+        }
+
+        /* Final Page */
+        #final-page {
+            display: none;
+            background: radial-gradient(ellipse at center, #15120d 0%, #0a0a0a 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #final-page::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(201, 162, 39, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+            animation: finalGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes finalGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .final-title {
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 25px;
+            opacity: 0;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 40%, var(--white) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            filter: drop-shadow(0 0 50px rgba(201, 162, 39, 0.4));
+        }
+
+        .final-date {
+            font-size: clamp(1.3rem, 4vw, 2.2rem);
+            color: var(--white);
+            font-weight: 300;
+            margin-bottom: 55px;
+            opacity: 0;
+            letter-spacing: 6px;
+        }
+
+        .btn-restart {
+            opacity: 0;
+            padding: 12px 35px;
+            font-size: 0.9rem;
+            border-color: rgba(201, 162, 39, 0.4);
+            color: rgba(201, 162, 39, 0.7);
+            width: auto;
+        }
+
+        .btn-restart:hover {
+            border-color: var(--gold);
+            color: var(--black);
+        }
+
+        /* Signature */
+        .signature {
+            position: absolute;
+            bottom: 35px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-in {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        /* Page Transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(201, 162, 39, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 162, 39, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .countdown-container {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 15px 10px;
+            }
+            
+            .page {
+                padding: 30px 18px;
+            }
+
+            .poem-verse {
+                line-height: 2.2;
+                margin-bottom: 18px;
+            }
+
+            .message-text {
+                line-height: 2.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars Background -->
+    <div class="stars-container" id="stars"></div>
+    
+    <!-- Ambient Glow -->
+    <div class="ambient-glow"></div>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="transition"></div>
+
+    <!-- Login Page -->
+    <section class="page" id="login-page">
+        <h1 class="main-title">إلى أنس</h1>
+        <p class="subtitle">لحظة خاصة تنتظرك</p>
+        
+        <div class="countdown-container">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">يوم</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">ساعة</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">دقيقة</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">ثانية</span>
+            </div>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" placeholder="أدخل كلمة المرور" autocomplete="off">
+            </div>
+            <button type="submit" class="btn">دخول</button>
+            <p class="error-message" id="errorMsg">البيانات غير صحيحة</p>
+        </form>
+    </section>
+
+    <!-- Welcome Page -->
+    <section class="page" id="welcome-page">
+        <h2 class="welcome-title">مرحبًا يا أنس</h2>
+        <p class="welcome-subtitle">هذا المكان صُنع لأجلك</p>
+        <button class="btn btn-start" onclick="showPage('poem-page')">ابدأ</button>
+    </section>
+
+    <!-- Poem Page -->
+    <section class="page" id="poem-page">
+        <div class="poem-container">
+            <h3 class="poem-title">قصيدة لك</h3>
+            
+            <div class="poem-verse">تَمْضِي الوُجُوهُ كَمَا السَّحَابِ لِغَايَةٍ</div>
+            <div class="poem-verse">وَتَمُوتُ ذِكْرَاهَا، وَلَا نَتَذَكَّرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">لَكِنَّ أَرْوَاحًا تَمُرُّ بِعُمْرِنَا</div>
+            <div class="poem-verse">كَالغَيْثِ.. فِينَا تَسْتَقِرُّ وَتُزْهِرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">يَمْضُونَ.. وَالأَثَرُ الجَمِيلُ يَدُلُّهُمْ</div>
+            <div class="poem-verse">وَالذِّكْرُ بَعْدَ غِيَابِهِمْ يَتَعَطَّرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">عَاشَرْتُ أَصْنَافَ الأَنَامِ فَلَمْ أَجِدْ</div>
+            <div class="poem-verse">إِلَّا القَلِيلَ الَّذِي يَعِزُّ وَيَنْدُرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">حَتَّى رَأَيْتُ الصِّدْقَ يَمْشِي صَامِتًا</div>
+            <div class="poem-verse">وَالنُّبْلُ فِي قَسَمَاتِهِ يَتَصَوَّرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">رَجُلٌ تَشَرَّبَ مِنْ أُصُولِ مَرَاجِلٍ</div>
+            <div class="poem-verse">فِي كَفِّهِ بَحْرُ المَكَارِمِ يَزْخَرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse highlight">هُوَ وَاحِدٌ.. لَكِنَّهُ عَنْ أُمَّةٍ</div>
+            <div class="poem-verse highlight">إِنْ مَالَ ظَهْرُ الخَائِفِينَ، يُجَبِّرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">إِنْ قِيلَ: مَنْ ذَاكَ الَّذِي بِحُضُورِهِ</div>
+            <div class="poem-verse">يُطْوَى الزَّمَانُ، وَكُلُّ مَجْدٍ يَصْغُرُ؟</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse highlight">قُلْتُ: اهْتِفُوا بِاسْمِ "الأَنِيسِ" فَإِنَّهُ</div>
+            <div class="poem-verse highlight">"أَنَسٌ"، خِتَامُ المِسْكِ حِينَ يُسَطَّرُ!</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">يَا لَيْتَ كُلَّ العَابِرِينَ كَشَخْصِهِ</div>
+            <div class="poem-verse">فِيهِ اكْتَفَيْتُ.. وَغَيْرُهُ لِي يَعْبُرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">يَا صَاحِبِي الَّذِي اسْتَقَامَ بِأَضْلُعِي</div>
+            <div class="poem-verse">وَأَخٌ بِهِ وَجْهُ الحَيَاةِ يُنَوِّرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">هَذَا نَهَارُ مَجِيئِكَ الدُّنْيَا لَنَا</div>
+            <div class="poem-verse">يَوْمٌ بِمِيلَادِ الشَّهَامَةِ يَفْخَرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">إِنَّ الرِّجَالَ إِذَا تُعَدُّ، ذَكَرْتُكُمْ</div>
+            <div class="poem-verse">وَبِغَيْرِ ذِكْرِكَ مَجْلِسِي لَا يُعْمَرُ</div>
+            
+            <div class="poem-divider"></div>
+            
+            <div class="poem-verse">عِشْ فِي سَلَامٍ.. عُمْرُ مَجْدِكَ خَالِدٌ</div>
+            <div class="poem-verse">وَشُمُوخُ قَدْرِكَ كُلَّ عَامٍ يَكْبُرُ</div>
+            
+            <button class="btn btn-next" onclick="showPage('message-page')">كلمة من القلب</button>
+        </div>
+    </section>
+
+    <!-- Message Page -->
+    <section class="page" id="message-page">
+        <div class="message-container">
+            <h3 class="message-title">رسالة لك</h3>
+            
+            <div class="message-text">
+                <p>أنس،</p>
+                
+                <p>بعد كل الكلام والقصيد، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني ما أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
+                
+                <p>أنت من الناس اللي حضورهم يفرق، وإذا دخلوا مكان تركوا أثر طيب، والناس ترتاح لك لأن فيك صفاء وصدق ونية طيبة. محبتك ما وقفت على شخص أو اثنين، بل كل من عرفك عرف قدرك، وكل من قرب منك لمس معدنك الحقيقي.</p>
+                
+                <p>بالنسبة لي أنت أخ ما جابته الولادة لكن جابته الأيام، وبالنسبة لغيري أنت وجه طيب وصاحب عزيز وإنسان ينحب بسهولة. وهذا أجمل شيء فيك: أنك قريب من القلوب بدون تصنّع، وغالي بدون ما تطلب.</p>
+                
+                <p>كل عام وأنت بخير يا أخوي، وكل عام وأنت محبوب مثل ما أنت، وعزيز عند كل من يعرفك. الله يديمك سالم، ويزيدك فرح ونجاح، ويخليك للي يحبونك كثير…</p>
+                
+                <p class="message-signature">وأنا أولهم ♡</p>
+            </div>
+            
+            <button class="btn btn-final" onclick="showPage('final-page')">النهاية</button>
+        </div>
+    </section>
+
+    <!-- Final Page -->
+    <section class="page" id="final-page">
+        <h2 class="final-title">كل عام وأنت بخير يا أنس</h2>
+        <p class="final-date">١٠ مايو</p>
+        <button class="btn btn-restart" onclick="restart()">أعد الزيارة</button>
+        <p class="signature">صُنع بكل حب</p>
+    </section>
+
+    <script>
+        // Create Stars
+        function createStars() {
+            const container = document.getElementById('stars');
+            const starCount = window.innerWidth < 600 ? 100 : 180;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 2 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.setProperty('--duration', (Math.random() * 5 + 3) + 's');
+                star.style.setProperty('--opacity', Math.random() * 0.6 + 0.2);
+                star.style.animationDelay = Math.random() * 6 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Countdown to May 10th
+        function updateCountdown() {
+            const now = new Date();
+            let targetYear = now.getFullYear();
+            let target = new Date(targetYear, 4, 10, 0, 0, 0);
+            
+            if (now > target) {
+                target = new Date(targetYear + 1, 4, 10, 0, 0, 0);
+            }
+            
+            const diff = target - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Login Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (username === 'لابوبو' && password === 'بالغ') {
+                showPage('welcome-page');
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.classList.add('show');
+                
+                // Shake effect
+                const form = document.querySelector('.login-form');
+                form.style.animation = 'none';
+                form.offsetHeight;
+                form.style.animation = 'shake 0.5s ease';
+                
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 3000);
+            }
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20% { transform: translateX(-8px); }
+                40% { transform: translateX(8px); }
+                60% { transform: translateX(-8px); }
+                80% { transform: translateX(8px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Page Navigation
+        function showPage(pageId) {
+            const transition = document.getElementById('transition');
+            transition.classList.add('active');
+            
+            setTimeout(() => {
+                document.querySelectorAll('.page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                const targetPage = document.getElementById(pageId);
+                targetPage.style.display = 'flex';
+                
+                window.scrollTo(0, 0);
+                
+                setTimeout(() => {
+                    transition.classList.remove('active');
+                    animatePage(pageId);
+                }, 150);
+            }, 600);
+        }
+
+        function animatePage(pageId) {
+            const page = document.getElementById(pageId);
+            
+            if (pageId === 'welcome-page') {
+                const title = page.querySelector('.welcome-title');
+                const subtitle = page.querySelector('.welcome-subtitle');
+                const btn = page.querySelector('.btn-start');
+                
+                setTimeout(() => { title.style.animation = 'fadeInUp 1.2s ease forwards'; }, 150);
+                setTimeout(() => { subtitle.style.animation = 'fadeInUp 1s ease forwards'; }, 500);
+                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 850);
+            }
+            
+            if (pageId === 'poem-page') {
+                const title = page.querySelector('.poem-title');
+                const verses = page.querySelectorAll('.poem-verse');
+                const dividers = page.querySelectorAll('.poem-divider');
+                const btn = page.querySelector('.btn-next');
+                
+                setTimeout(() => { title.style.animation = 'fadeInUp 1s ease forwards'; }, 150);
+                
+                let delay = 500;
+                verses.forEach((verse, index) => {
+                    setTimeout(() => {
+                        verse.style.animation = 'fadeInUp 0.8s ease forwards';
+                    }, delay);
+                    delay += 200;
+                });
+
+                dividers.forEach((divider, index) => {
+                    setTimeout(() => {
+                        divider.style.animation = 'fadeIn 0.6s ease forwards';
+                    }, 600 + (index * 400));
+                });
+                
+                setTimeout(() => {
+                    btn.style.animation = 'fadeInUp 1s ease forwards';
+                }, delay + 400);
+            }
+            
+            if (pageId === 'message-page') {
+                const title = page.querySelector('.message-title');
+                const text = page.querySelector('.message-text');
+                const btn = page.querySelector('.btn-final');
+                
+                setTimeout(() => { title.style.animation = 'fadeInUp 1s ease forwards'; }, 150);
+                setTimeout(() => { text.style.animation = 'fadeInUp 1.3s ease forwards'; }, 550);
+                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 1400);
+            }
+            
+            if (pageId === 'final-page') {
+                const title = page.querySelector('.final-title');
+                const date = page.querySelector('.final-date');
+                const btn = page.querySelector('.btn-restart');
+                
+                setTimeout(() => { title.style.animation = 'fadeInUp 1.3s ease forwards'; }, 150);
+                setTimeout(() => { date.style.animation = 'fadeInUp 1s ease forwards'; }, 700);
+                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 1200);
+            }
+        }
+
+        function restart() {
+            const transition = document.getElementById('transition');
+            transition.classList.add('active');
+            
+            setTimeout(() => {
+                location.reload();
+            }, 600);
+        }
+    </script>
+</body>
+</html>
