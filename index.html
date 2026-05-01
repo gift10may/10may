@@ -567,6 +567,16 @@
     </style>
 </head>
 <body>
+    ="start-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; color: white; display: flex; justify-content: center; align-items: center; z-index: 99999; cursor: pointer; flex-direction: column;" onclick="startCreepyExperience()">
+    <h2 style="font-family: monospace; color: #8b0000; text-align: center; font-weight: normal; letter-spacing: 2px;">
+        10 MAY<br>
+        <span style="font-size: 12px; color: #444; margin-top: 15px; display: block;">[ CLICK TO ENTER ]</span>
+    </h2>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="song.mp3.mp3" type="audio/mp3">
+</audio
     <!-- Stars Background -->
     <div class="stars-container" id="stars"></div>
     
@@ -906,6 +916,27 @@
                 location.reload();
             }, 600);
         }
+        
+ function startCreepyExperience() {
+    var startScreen = document.getElementById("start-screen");
+    startScreen.style.transition = "opacity 2s";
+    startScreen.style.opacity = "0";
+    setTimeout(function() { 
+        startScreen.style.display = "none"; 
+    }, 2000);
+
+    var audio = document.getElementById("bg-music");
+    audio.volume = 0.05; 
+    audio.play().then(() => {
+        var fadeIn = setInterval(function () {
+            if (audio.volume < 0.5) { 
+                audio.volume += 0.05; 
+            } else { 
+                clearInterval(fadeIn); 
+            }
+        }, 2000);
+    }).catch(error => console.log("Audio play blocked: ", error));
+}
     </script>
 </body>
 </html>
