@@ -23,9 +23,7 @@
             --gray-light: #666666;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Tajawal', sans-serif;
@@ -35,453 +33,140 @@
             line-height: 1.8;
         }
 
-        /* Blood Pulse Background */
+        /* --- HORROR BACKGROUNDS --- */
         .blood-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(138, 3, 3, 0.05) 0%, transparent 80%),
-                        radial-gradient(circle at 10% 20%, rgba(74, 0, 0, 0.1) 0%, transparent 40%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(138, 3, 3, 0.05) 0%, transparent 80%);
             animation: bloodPulse 6s ease-in-out infinite alternate;
         }
 
         @keyframes bloodPulse {
-            0% { opacity: 0.4; }
-            100% { opacity: 1; }
+            0% { opacity: 0.4; } 100% { opacity: 1; }
         }
 
-        /* Ambient Horror Glow */
-        .ambient-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 1000px;
-            height: 1000px;
-            background: radial-gradient(circle, rgba(138, 3, 3, 0.04) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-            animation: ambientPulse 4s infinite alternate;
+        /* Dynamic Creepy Text Behind Countdown */
+        .creepy-bg-text-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; text-align: center;
+            z-index: 0; pointer-events: none;
+            opacity: 0.08; /* باهت جداً عشان يكون مرعب ومخفي شوي */
         }
 
-        @keyframes ambientPulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
-        }
-
-        /* Glitch Text Effect */
-        .glitch {
-            position: relative;
-            color: var(--white);
-            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                        -0.025em -0.05em 0 rgba(0, 0, 0, 0.75),
-                        0.025em 0.05em 0 rgba(138, 3, 3, 0.75);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 0, 0.75), 0.025em 0.05em 0 rgba(138, 3, 3, 0.75); }
-            14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 0, 0.75), 0.025em 0.05em 0 rgba(138, 3, 3, 0.75); }
-            15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 0, 0, 0.75), -0.05em -0.05em 0 rgba(138, 3, 3, 0.75); }
-            49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 0, 0, 0.75), -0.05em -0.05em 0 rgba(138, 3, 3, 0.75); }
-            50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 0, 0, 0.75), 0 -0.05em 0 rgba(138, 3, 3, 0.75); }
-            99% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 0, 0, 0.75), 0 -0.05em 0 rgba(138, 3, 3, 0.75); }
-            100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 0, 0, 0.75), -0.025em -0.05em 0 rgba(138, 3, 3, 0.75); }
+        .creepy-word {
+            font-family: 'Courier Prime', monospace;
+            font-size: clamp(4rem, 15vw, 10rem);
+            color: var(--blood-bright);
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+            white-space: nowrap;
         }
 
         /* Page Sections */
         .page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 40px 20px; position: relative;
+            z-index: 2; /* فوق الخلفية المرعبة */
         }
 
-        /* Login Page */
-        #login-page {
-            background: linear-gradient(180deg, #050505 0%, #0f0000 50%, #050505 100%);
+        #login-page { background: transparent; }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative; color: var(--white);
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 0, 0.75), 0.025em 0.05em 0 rgba(138, 3, 3, 0.75);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
         }
 
-        .main-title {
-            font-family: 'Courier Prime', monospace;
-            font-size: clamp(3.5rem, 10vw, 6rem);
-            font-weight: 900;
-            margin-bottom: 10px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease forwards;
-            text-transform: uppercase;
+        @keyframes glitch-anim {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,0,0,0.75), 0.025em 0.05em 0 rgba(138,3,3,0.75); }
+            15%, 49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,0,0,0.75), -0.05em -0.05em 0 rgba(138,3,3,0.75); }
+            50%, 99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,0,0,0.75), 0 -0.05em 0 rgba(138,3,3,0.75); }
         }
 
-        .subtitle {
-            font-family: 'Courier Prime', monospace;
-            font-size: 1.1rem;
-            color: var(--blood-red);
-            margin-bottom: 50px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.3s forwards, flicker 3s infinite;
-            font-weight: 700;
-            letter-spacing: 3px;
-        }
+        /* Titles & Countdown */
+        .main-title { font-family: 'Courier Prime', monospace; font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 900; margin-bottom: 10px; opacity: 0; animation: fadeInUp 1.5s ease forwards; text-transform: uppercase; }
+        .subtitle { font-family: 'Courier Prime', monospace; font-size: 1.1rem; color: var(--blood-red); margin-bottom: 50px; opacity: 0; animation: fadeInUp 1.5s ease 0.3s forwards, flicker 3s infinite; font-weight: 700; letter-spacing: 3px; }
 
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-            20%, 24%, 55% { opacity: 0.3; }
-        }
+        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: 0.3; } }
 
-        /* Countdown */
-        .countdown-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.5s forwards;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .countdown-container { display: flex; gap: 15px; margin-bottom: 60px; opacity: 0; animation: fadeInUp 1.5s ease 0.5s forwards; flex-wrap: wrap; justify-content: center; }
+        .countdown-item { text-align: center; min-width: 85px; padding: 20px 15px; background: rgba(10, 0, 0, 0.8); border: 1px solid var(--blood-dark); border-radius: 4px; box-shadow: inset 0 0 10px rgba(138, 3, 3, 0.2); }
+        .countdown-number { font-family: 'Courier Prime', monospace; font-size: clamp(2.2rem, 7vw, 3.5rem); font-weight: 700; color: var(--blood-bright); display: block; line-height: 1; text-shadow: 0 0 10px var(--blood-red); }
+        .countdown-label { font-size: 0.75rem; color: var(--gray-light); letter-spacing: 2px; margin-top: 12px; font-weight: 700; }
 
-        .countdown-item {
-            text-align: center;
-            min-width: 85px;
-            padding: 20px 15px;
-            background: rgba(10, 0, 0, 0.8);
-            border: 1px solid var(--blood-dark);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 10px rgba(138, 3, 3, 0.2);
-        }
+        /* Form */
+        .login-form { width: 100%; max-width: 360px; opacity: 0; animation: fadeInUp 1.5s ease 0.7s forwards; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 8px; }
+        .input-group { margin-bottom: 22px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--blood-red); margin-bottom: 10px; letter-spacing: 1px; font-weight: 700; }
+        .input-group input { width: 100%; padding: 16px 18px; background: #000; border: 1px solid var(--blood-dark); border-radius: 4px; color: var(--blood-bright); font-size: 1rem; font-family: 'Tajawal', sans-serif; transition: all 0.4s ease; text-align: center; }
+        .input-group input:focus { outline: none; border-color: var(--blood-bright); background: rgba(138, 3, 3, 0.05); box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
+        .btn { width: 100%; padding: 16px 40px; background: transparent; border: 1px solid var(--blood-red); color: var(--blood-bright); font-size: 1.1rem; font-family: 'Tajawal', sans-serif; font-weight: 800; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+        .btn:hover { background: var(--blood-red); color: var(--white); box-shadow: 0 0 30px rgba(138, 3, 3, 0.5); }
+        .error-message { color: var(--blood-bright); font-size: 0.9rem; margin-top: 18px; text-align: center; opacity: 0; font-weight: bold; font-family: 'Courier Prime', monospace; }
+        .error-message.show { opacity: 1; animation: flicker 0.5s infinite; }
+        .hint-text { color: var(--gray-light); font-family: 'Courier Prime', monospace; font-size: 0.8rem; text-align: center; margin-top: 20px; cursor: pointer; text-decoration: underline; }
+        .hint-text:hover { color: var(--blood-bright); }
 
-        .countdown-number {
-            font-family: 'Courier Prime', monospace;
-            font-size: clamp(2.2rem, 7vw, 3.5rem);
-            font-weight: 700;
-            color: var(--blood-bright);
-            display: block;
-            line-height: 1;
-            text-shadow: 0 0 10px var(--blood-red);
-        }
+        /* Other Pages (Welcome, Poem, Message, Final) */
+        #welcome-page, #poem-page, #message-page, #final-page { display: none; background: #050505; }
+        .welcome-title { font-size: clamp(2.8rem, 9vw, 5.5rem); font-weight: 900; margin-bottom: 20px; opacity: 0; color: var(--blood-bright); text-shadow: 0 0 20px var(--blood-red); }
+        .welcome-subtitle { font-size: clamp(1rem, 3vw, 1.4rem); color: var(--gray-light); font-weight: 700; margin-bottom: 50px; opacity: 0; letter-spacing: 2px; }
+        
+        .poem-container, .message-container { max-width: 850px; width: 100%; text-align: center; padding-top: 50px;}
+        .poem-title, .message-title { font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--blood-bright); margin-bottom: 50px; font-weight: 900; opacity: 0; }
+        .poem-verse { font-size: clamp(1.15rem, 2.8vw, 1.45rem); line-height: 2.4; margin-bottom: 20px; opacity: 0; transform: translateY(30px); font-weight: 500; color: var(--white); }
+        .poem-verse.highlight { color: var(--blood-bright); font-weight: 800; text-shadow: 0 0 10px var(--blood-red); }
+        .poem-divider { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--blood-red), transparent); margin: 30px auto; opacity: 0; }
+        
+        .message-text { font-size: clamp(1.05rem, 2.5vw, 1.2rem); line-height: 2.5; color: #b3b3b3; font-weight: 500; opacity: 0; }
+        .message-text p { margin-bottom: 35px; }
+        .message-signature { color: var(--blood-bright); font-weight: 900; font-size: 1.2rem; }
 
-        .countdown-label {
-            font-size: 0.75rem;
-            color: var(--gray-light);
-            letter-spacing: 2px;
-            margin-top: 12px;
-            font-weight: 700;
-        }
+        .final-title { font-size: clamp(1.8rem, 6vw, 3.5rem); font-weight: 900; margin-bottom: 25px; opacity: 0; color: var(--white); text-shadow: 0 0 20px var(--blood-red); text-align: center; }
+        .final-date { font-family: 'Courier Prime', monospace; font-size: clamp(1.3rem, 4vw, 2.2rem); color: var(--blood-bright); font-weight: 700; margin-bottom: 55px; opacity: 0; letter-spacing: 6px; }
 
-        /* Login Form */
-        .login-form {
-            width: 100%;
-            max-width: 360px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.7s forwards;
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .input-group {
-            margin-bottom: 22px;
-            position: relative;
-        }
+        .page-transition { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--blood-dark); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+        .page-transition.active { opacity: 1; pointer-events: all; }
 
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--blood-red);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
+        /* --- HORROR ELEMENTS --- */
+        #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; display: flex; justify-content: center; align-items: center; z-index: 99999; cursor: pointer; flex-direction: column; }
+        #start-screen h2 { font-family: 'Courier Prime', monospace; color: var(--blood-red); text-align: center; font-weight: bold; letter-spacing: 5px; font-size: 3rem; animation: flicker 2s infinite; }
+        #start-screen span { font-size: 14px; color: #444; margin-top: 15px; display: block; letter-spacing: 2px; }
 
-        .input-group input {
-            width: 100%;
-            padding: 16px 18px;
-            background: #000;
-            border: 1px solid var(--blood-dark);
-            border-radius: 4px;
-            color: var(--blood-bright);
-            font-size: 1rem;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.4s ease;
-            text-align: center;
-        }
+        .static-noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0; pointer-events: none; z-index: 10001; mix-blend-mode: overlay; }
+        .static-active { opacity: 0.6; animation: flicker 0.1s infinite; }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--blood-bright);
-            background: rgba(138, 3, 3, 0.05);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-        }
+        #jumpscare { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; display: none; justify-content: center; align-items: center; z-index: 100000; text-align: center; flex-direction: column; }
+        #jumpscare-text { font-family: 'Courier Prime', monospace; color: var(--blood-bright); font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; }
 
-        .input-group input::placeholder {
-            color: rgba(255, 0, 0, 0.3);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px 40px;
-            background: transparent;
-            border: 1px solid var(--blood-red);
-            color: var(--blood-bright);
-            font-size: 1.1rem;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 800;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .btn:hover {
-            background: var(--blood-red);
-            color: var(--white);
-            box-shadow: 0 0 30px rgba(138, 3, 3, 0.5);
-        }
-
-        .error-message {
-            color: var(--blood-bright);
-            font-size: 0.9rem;
-            margin-top: 18px;
-            text-align: center;
-            opacity: 0;
-            font-weight: bold;
-            font-family: 'Courier Prime', monospace;
-        }
-
-        .error-message.show {
-            opacity: 1;
-            animation: flicker 0.5s infinite;
-        }
-
-        /* Welcome Page */
-        #welcome-page {
-            display: none;
-            background: radial-gradient(ellipse at center, #1a0000 0%, #050505 70%);
-        }
-
-        .welcome-title {
-            font-size: clamp(2.8rem, 9vw, 5.5rem);
-            font-weight: 900;
-            margin-bottom: 20px;
-            opacity: 0;
-            color: var(--blood-bright);
-            text-shadow: 0 0 20px var(--blood-red);
-        }
-
-        .welcome-subtitle {
-            font-size: clamp(1rem, 3vw, 1.4rem);
-            color: var(--gray-light);
-            font-weight: 700;
-            margin-bottom: 50px;
-            opacity: 0;
-            letter-spacing: 2px;
-        }
-
-        /* Poem Page */
-        #poem-page {
-            display: none;
-            padding: 100px 20px;
-            min-height: auto;
-            background: #000;
-        }
-
-        .poem-container {
-            max-width: 850px;
-            width: 100%;
-        }
-
-        .poem-title {
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
-            color: var(--blood-bright);
-            margin-bottom: 70px;
-            text-align: center;
-            font-weight: 900;
-            opacity: 0;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 5px rgba(255,0,0,0.3);
-        }
-
-        .poem-verse {
-            font-size: clamp(1.15rem, 2.8vw, 1.45rem);
-            line-height: 2.4;
-            margin-bottom: 20px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            font-weight: 500;
-            color: var(--white);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-
-        .poem-verse.highlight {
-            color: var(--blood-bright);
-            font-weight: 800;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            margin-top: 10px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--blood-red);
-        }
-
-        .poem-divider {
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--blood-red), transparent);
-            margin: 40px auto;
-            opacity: 0;
-        }
-
-        /* Message Page */
-        #message-page {
-            display: none;
-            padding: 100px 20px;
-            background: linear-gradient(to bottom, #050505, #110000);
-        }
-
-        .message-container {
-            max-width: 720px;
-            width: 100%;
-        }
-
-        .message-title {
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
-            color: var(--blood-bright);
-            margin-bottom: 55px;
-            text-align: center;
-            font-weight: 900;
-            opacity: 0;
-        }
-
-        .message-text {
-            font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-            line-height: 2.5;
-            text-align: center;
-            color: #b3b3b3;
-            font-weight: 500;
-            opacity: 0;
-        }
-
-        .message-text p {
-            margin-bottom: 35px;
-        }
-
-        .message-signature {
-            color: var(--blood-bright);
-            font-weight: 900;
-            margin-top: 20px;
-            font-size: 1.2rem;
-            text-shadow: 0 0 8px var(--blood-red);
-        }
-
-        /* Final Page */
-        #final-page {
-            display: none;
-            background: radial-gradient(ellipse at center, #220000 0%, #000000 70%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-title {
-            font-size: clamp(1.8rem, 6vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 25px;
-            opacity: 0;
-            color: var(--white);
-            text-shadow: 0 0 20px var(--blood-red);
-            text-align: center;
-        }
-
-        .final-date {
-            font-family: 'Courier Prime', monospace;
-            font-size: clamp(1.3rem, 4vw, 2.2rem);
-            color: var(--blood-bright);
-            font-weight: 700;
-            margin-bottom: 55px;
-            opacity: 0;
-            letter-spacing: 6px;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Page Transition Overlay */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--blood-dark);
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-        }
-
-        .page-transition.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Start Screen */
-        #start-screen {
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            background: black; 
-            display: flex; justify-content: center; align-items: center; 
-            z-index: 99999; cursor: pointer; flex-direction: column;
-        }
-
-        #start-screen h2 {
-            font-family: 'Courier Prime', monospace; 
-            color: var(--blood-red); 
-            text-align: center; 
-            font-weight: bold; 
-            letter-spacing: 5px;
-            font-size: 3rem;
-            animation: flicker 2s infinite;
-        }
-
-        #start-screen span {
-            font-size: 14px; 
-            color: #444; 
-            margin-top: 15px; 
-            display: block;
-            letter-spacing: 2px;
-        }
+        @keyframes violent-shake { 0% { transform: translate(15px, 15px) rotate(2deg); } 20% { transform: translate(-15px, -15px) rotate(-2deg); } 40% { transform: translate(15px, -15px) rotate(2deg); } 60% { transform: translate(-15px, 15px) rotate(-2deg); } 80% { transform: translate(15px, 15px) rotate(2deg); } 100% { transform: translate(-15px, -15px) rotate(-2deg); } }
+        .shake-active { animation: violent-shake 0.1s infinite; filter: contrast(200%) saturate(300%); }
     </style>
 </head>
-<body>
+<body id="main-body">
+
+    <!-- Start Screen -->
     <div id="start-screen" onclick="startCreepyExperience()">
-        <h2>
-            10 MAY<br>
-            <span>[ INITIATE OVERRIDE ]</span>
-        </h2>
+        <h2>10 MAY<br><span>[ CLICK TO INITIATE ]</span></h2>
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="song.mp3.mp3" type="audio/mp3">
-    </audio>
+    <!-- Horror Tools -->
+    <div class="static-noise" id="tv-noise"></div>
+    <div id="jumpscare"><h1 id="jumpscare-text">LOOK BEHIND YOU</h1></div>
+    <audio id="bg-music" loop><source src="song.mp3.mp3" type="audio/mp3"></audio>
 
-    <!-- Blood Background -->
+    <!-- Background Layers -->
     <div class="blood-bg"></div>
-    <div class="ambient-glow"></div>
+    <div class="creepy-bg-text-container">
+        <div id="dynamic-creepy-text" class="creepy-word">HE IS WATCHING</div>
+    </div>
     
-    <!-- Page Transition -->
     <div class="page-transition" id="transition"></div>
 
     <!-- Login Page -->
@@ -490,22 +175,10 @@
         <p class="subtitle">What will you have after 10 days ???</p>
         
         <div class="countdown-container">
-            <div class="countdown-item">
-                <span class="countdown-number" id="days">00</span>
-                <span class="countdown-label">يوم</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">00</span>
-                <span class="countdown-label">ساعة</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">00</span>
-                <span class="countdown-label">دقيقة</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">00</span>
-                <span class="countdown-label">ثانية</span>
-            </div>
+            <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">يوم</span></div>
+            <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">ساعة</span></div>
+            <div class="countdown-item"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">دقيقة</span></div>
+            <div class="countdown-item"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">ثانية</span></div>
         </div>
 
         <form class="login-form" id="loginForm">
@@ -518,7 +191,8 @@
                 <input type="password" id="password" placeholder="KEY" autocomplete="off">
             </div>
             <button type="submit" class="btn">GRANT ACCESS</button>
-            <p class="error-message" id="errorMsg">ACCESS DENIED.</p>
+            <div class="hint-text" onclick="triggerHint()">NEED A HINT?</div>
+            <p class="error-message" id="errorMsg">ACCESS DENIED. YOU FAILED.</p>
         </form>
     </section>
 
@@ -533,75 +207,20 @@
     <section class="page" id="poem-page">
         <div class="poem-container">
             <h3 class="poem-title">قصيدة لك</h3>
-            
             <div class="poem-verse">تَمْضِي الوُجُوهُ كَمَا السَّحَابِ لِغَايَةٍ</div>
             <div class="poem-verse">وَتَمُوتُ ذِكْرَاهَا، وَلَا نَتَذَكَّرُ</div>
-            
             <div class="poem-divider"></div>
-            
             <div class="poem-verse">لَكِنَّ أَرْوَاحًا تَمُرُّ بِعُمْرِنَا</div>
             <div class="poem-verse">كَالغَيْثِ.. فِينَا تَسْتَقِرُّ وَتُزْهِرُ</div>
-            
             <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَمْضُونَ.. وَالأَثَرُ الجَمِيلُ يَدُلُّهُمْ</div>
-            <div class="poem-verse">وَالذِّكْرُ بَعْدَ غِيَابِهِمْ يَتَعَطَّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">عَاشَرْتُ أَصْنَافَ الأَنَامِ فَلَمْ أَجِدْ</div>
-            <div class="poem-verse">إِلَّا القَلِيلَ الَّذِي يَعِزُّ وَيَنْدُرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">حَتَّى رَأَيْتُ الصِّدْقَ يَمْشِي صَامِتًا</div>
-            <div class="poem-verse">وَالنُّبْلُ فِي قَسَمَاتِهِ يَتَصَوَّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">رَجُلٌ تَشَرَّبَ مِنْ أُصُولِ مَرَاجِلٍ</div>
-            <div class="poem-verse">فِي كَفِّهِ بَحْرُ المَكَارِمِ يَزْخَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
             <div class="poem-verse highlight">هُوَ وَاحِدٌ.. لَكِنَّهُ عَنْ أُمَّةٍ</div>
             <div class="poem-verse highlight">إِنْ مَالَ ظَهْرُ الخَائِفِينَ، يُجَبِّرُ</div>
-            
             <div class="poem-divider"></div>
-            
-            <div class="poem-verse">إِنْ قِيلَ: مَنْ ذَاكَ الَّذِي بِحُضُورِهِ</div>
-            <div class="poem-verse">يُطْوَى الزَّمَانُ، وَكُلُّ مَجْدٍ يَصْغُرُ؟</div>
-            
-            <div class="poem-divider"></div>
-            
             <div class="poem-verse highlight">قُلْتُ: اهْتِفُوا بِاسْمِ "الأَنِيسِ" فَإِنَّهُ</div>
             <div class="poem-verse highlight">"أَنَسٌ"، خِتَامُ المِسْكِ حِينَ يُسَطَّرُ!</div>
-            
             <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَا لَيْتَ كُلَّ العَابِرِينَ كَشَخْصِهِ</div>
-            <div class="poem-verse">فِيهِ اكْتَفَيْتُ.. وَغَيْرُهُ لِي يَعْبُرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَا صَاحِبِي الَّذِي اسْتَقَامَ بِأَضْلُعِي</div>
-            <div class="poem-verse">وَأَخٌ بِهِ وَجْهُ الحَيَاةِ يُنَوِّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">هَذَا نَهَارُ مَجِيئِكَ الدُّنْيَا لَنَا</div>
-            <div class="poem-verse">يَوْمٌ بِمِيلَادِ الشَّهَامَةِ يَفْخَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">إِنَّ الرِّجَالَ إِذَا تُعَدُّ، ذَكَرْتُكُمْ</div>
-            <div class="poem-verse">وَبِغَيْرِ ذِكْرِكَ مَجْلِسِي لَا يُعْمَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
             <div class="poem-verse">عِشْ فِي سَلَامٍ.. عُمْرُ مَجْدِكَ خَالِدٌ</div>
             <div class="poem-verse">وَشُمُوخُ قَدْرِكَ كُلَّ عَامٍ يَكْبُرُ</div>
-            
             <button class="btn btn-next" style="margin-top: 50px; width: auto;" onclick="showPage('message-page')">كلمة من القلب</button>
         </div>
     </section>
@@ -610,16 +229,12 @@
     <section class="page" id="message-page">
         <div class="message-container">
             <h3 class="message-title">رسالة لك</h3>
-            
             <div class="message-text">
                 <p>أنس،</p>
-                <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني ما أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
-                <p>أنت من الناس اللي حضورهم يفرق، وإذا دخلوا مكان تركوا أثر طيب، والناس ترتاح لك لأن فيك صفاء وصدق ونية طيبة. محبتك ما وقفت على شخص أو اثنين، بل كل من عرفك عرف قدرك، وكل من قرب منك لمس معدنك الحقيقي.</p>
-                <p>بالنسبة لي أنت أخ ما جابته الولادة لكن جابته الأيام، وبالنسبة لغيري أنت وجه طيب وصاحب عزيز وإنسان ينحب بسهولة. وهذا أجمل شيء فيك: أنك قريب من القلوب بدون تصنّع، وغالي بدون ما تطلب.</p>
+                <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني مو أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
                 <p>كل عام وأنت بخير يا أخوي، وكل عام وأنت محبوب مثل ما أنت، وعزيز عند كل من يعرفك. الله يديمك سالم، ويزيدك فرح ونجاح، ويخليك للي يحبونك كثير…</p>
                 <p class="message-signature">وأنا أولهم ♡</p>
             </div>
-            
             <button class="btn btn-final" style="margin-top: 50px; width: auto;" onclick="showPage('final-page')">النهاية</button>
         </div>
     </section>
@@ -632,6 +247,21 @@
     </section>
 
     <script>
+        const audio = document.getElementById("bg-music");
+        const body = document.getElementById("main-body");
+        const tvNoise = document.getElementById("tv-noise");
+
+        // 1. ديناميكية الكلمات المخيفة في الخلفية
+        const creepyPhrases = ["HE IS WAITING", "WAKE UP", "DON'T BLINK", "IT'S TOO LATE", "TIME IS RUNNING OUT", "NO ESCAPE"];
+        let phraseIndex = 0;
+        setInterval(() => {
+            const bgText = document.getElementById('dynamic-creepy-text');
+            if(bgText && document.getElementById('login-page').style.display !== 'none') {
+                phraseIndex = (phraseIndex + 1) % creepyPhrases.length;
+                bgText.innerText = creepyPhrases[phraseIndex];
+            }
+        }, 3000); // تتغير كل 3 ثواني
+
         function updateCountdown() {
             const target = new Date("May 10, 2026 00:00:00").getTime();
             const now = new Date().getTime();
@@ -652,31 +282,75 @@
             const password = document.getElementById('password').value.trim();
             
             if (username === 'لابوبو' && password === 'بالغ') {
+                resetHorror();
+                document.querySelector('.creepy-bg-text-container').style.display = 'none'; // نخفي الكلام المرعب
                 showPage('welcome-page');
             } else {
-                const errorMsg = document.getElementById('errorMsg');
-                errorMsg.classList.add('show');
-                
-                const form = document.querySelector('.login-form');
-                form.style.animation = 'none';
-                form.offsetHeight;
-                form.style.animation = 'shake 0.5s ease';
-                
-                setTimeout(() => { errorMsg.classList.remove('show'); }, 3000);
+                triggerNightmare();
             }
         });
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                20% { transform: translateX(-10px); }
-                40% { transform: translateX(10px); }
-                60% { transform: translateX(-10px); }
-                80% { transform: translateX(10px); }
-            }
-        `;
-        document.head.appendChild(style);
+        // 2. زر التلميح المرعب
+        function triggerHint() {
+            const js = document.getElementById('jumpscare');
+            const jstext = document.getElementById('jumpscare-text');
+            
+            jstext.innerText = "LOOK BEHIND YOU";
+            js.style.display = 'flex';
+            tvNoise.classList.add('static-active');
+            let oldVol = audio.volume;
+            audio.volume = 1.0;
+
+            setTimeout(() => {
+                js.style.display = 'none';
+                tvNoise.classList.remove('static-active');
+                audio.volume = oldVol;
+            }, 500);
+        }
+
+        // 3. عقاب الكلمة الغلط (الكابوس العنيف)
+        let flashInterval;
+        function triggerNightmare() {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.classList.add('show');
+            
+            const js = document.getElementById('jumpscare');
+            const jstext = document.getElementById('jumpscare-text');
+            
+            jstext.innerText = "ACCESS DENIED";
+            jstext.style.color = "black";
+            js.style.backgroundColor = "var(--blood-bright)";
+            js.style.display = 'flex';
+            
+            // اهتزاز وتشويش الشاشة
+            body.classList.add('shake-active');
+            tvNoise.classList.add('static-active');
+            
+            // وميض أحمر وأسود سريع جداً
+            flashInterval = setInterval(() => {
+                js.style.backgroundColor = js.style.backgroundColor === "black" ? "var(--blood-bright)" : "black";
+                jstext.style.color = jstext.style.color === "var(--blood-bright)" ? "black" : "var(--blood-bright)";
+            }, 80);
+
+            audio.playbackRate = 2.5; 
+            audio.preservesPitch = false; 
+
+            // يوقف بعد ثانيتين
+            setTimeout(() => { 
+                clearInterval(flashInterval);
+                js.style.display = 'none';
+                resetHorror();
+                errorMsg.classList.remove('show');
+            }, 2000); 
+        }
+
+        function resetHorror() {
+            body.classList.remove('shake-active');
+            tvNoise.classList.remove('static-active');
+            audio.playbackRate = 1.0;
+            audio.preservesPitch = true;
+            if(flashInterval) clearInterval(flashInterval);
+        }
 
         function showPage(pageId) {
             const transition = document.getElementById('transition');
@@ -738,14 +412,12 @@
             startScreen.style.opacity = "0";
             setTimeout(() => startScreen.style.display = "none", 2000);
 
-            var audio = document.getElementById("bg-music");
             audio.volume = 0.05; 
-            audio.play().then(() => {
-                var fadeIn = setInterval(() => {
-                    if (audio.volume < 0.5) audio.volume += 0.05; 
-                    else clearInterval(fadeIn); 
-                }, 2000);
-            }).catch(error => console.log("Audio play blocked: ", error));
+            audio.play().catch(error => console.log("Audio play blocked: ", error));
+            var fadeIn = setInterval(() => {
+                if (audio.volume < 0.5) audio.volume += 0.05; 
+                else clearInterval(fadeIn); 
+            }, 2000);
         }
     </script>
 </body>
