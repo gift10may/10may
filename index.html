@@ -11,7 +11,6 @@
         html{scroll-behavior:smooth;}
         body{font-family:'Tajawal',sans-serif;background-color:var(--black);color:var(--white);overflow-x:hidden;line-height:1.8;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff0000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23ff0000' stroke-width='1' opacity='0.5'/%3E%3Cline x1='16' y1='0' x2='16' y2='8' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='16' y1='24' x2='16' y2='32' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='0' y1='16' x2='8' y2='16' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='24' y1='16' x2='32' y2='16' stroke='%23ff0000' stroke-width='1'/%3E%3C/svg%3E") 16 16, crosshair;}
         
-        /* --- التعديلات الجديدة للأجواء الغامضة --- */
         .investigation-container {
             width: 100%;
             max-width: 600px;
@@ -45,7 +44,22 @@
             animation: blink 0.7s infinite;
             margin-left: 5px;
         }
-        /* --- نهاية التعديلات الجديدة في CSS --- */
+
+        /* --- حاوية اللعبة المعدلة --- */
+        .game-wrapper {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid var(--blood-dark);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            position: relative;
+            z-index: 20;
+            background: #000;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 1.5s;
+            overflow: hidden; /* يمنع ظهور أي شي خارج الإطار */
+            height: 480px; /* الارتفاع المطلوب لإظهار اللعبة فقط */
+        }
 
         #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;}
         #loading-skull{font-size:4rem;animation:skullPulse 1s infinite;filter:drop-shadow(0 0 20px #ff0000);}
@@ -250,8 +264,23 @@
         <div id="mystery-typing-box"><span id="mystery-text"></span><span class="typing-cursor"></span></div>
     </div>
 
-    <h1 class="main-title glitch">Think Mark !!</h1>
-    <p class="subtitle">What will you have after 10 days ???</p>
+    <!-- كود اللعبة المحدث لمنع التمرير وإخفاء الكلام السفلي -->
+    <div class="game-wrapper" id="game-section">
+        <div style="width: 100%; height: 100%; position: relative; overflow: hidden;">
+            <iframe 
+                src="https://www.rosebud.ai/p/d825e4b2-a382-470d-88fa-d3f977be47ac?isEmbed=true" 
+                style="top: 0; left: 0; width: 100%; height: calc(100% + 150px); position: absolute; border: 0;" 
+                scrolling="no"
+                allowfullscreen 
+                allow="autoplay; fullscreen; keyboard-attaching">
+            </iframe>
+            <!-- طبقة سوداء إضافية للتأكيد في الأسفل -->
+            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 20px; background: black; z-index: 10;"></div>
+        </div>
+    </div>
+
+    <h1 class="main-title glitch">WELCOME TO THE END OF YOUR SANITY </h1>
+    <p class="subtitle">HOPE IS THE FIRST THING TO DIE IN THE DARK </p>
     <div class="countdown-container">
         <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">يوم</span></div>
         <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">ساعة</span></div>
@@ -296,7 +325,7 @@
         <h3 class="message-title">رسالة لك</h3>
         <div class="message-text">
             <p>أنس،</p>
-            <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني مو أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
+            <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنت وإن كنت أشوفك أخوي، أعرف زين إني مو أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
             <p>كل عام وأنت بخير يا أخوي، وكل عام وأنت محبوب مثل ما أنت، وعزيز عند كل من يعرفك. الله يديمك سالم، ويزيدك فرح ونجاح، ويخليك للي يحبونك كثير…</p>
             <p class="message-signature">وأنا أولهم ♡</p>
         </div>
@@ -310,45 +339,13 @@
 </section>
 
 <script>
-// --- كود نظام الرسائل التدريجية للأجواء الغامضة ---
-const mysteryMessages = [
-    "تم رصدك…",
-    "نعرف أنك هنا",
-    "اقترب الموعد",
-    "لم يتبق الكثير",
-    "تم اختيار الشخص الصحيح",
-    "النهاية ليست كما تتوقع",
-    "أنت الهدف… ولكن لسبب مختلف"
-];
-
-let mMsgIdx = 0;
-let mCharIdx = 0;
+const mysteryMessages = ["تم رصدك…","نعرف أنك هنا","اقترب الموعد","لم يتبق الكثير","تم اختيار الشخص الصحيح","النهاية ليست كما تتوقع","أنت الهدف… ولكن لسبب مختلف"];
+let mMsgIdx = 0, mCharIdx = 0;
 const mTargetEl = document.getElementById('mystery-text');
-
-function typeMystery() {
-    if (mCharIdx < mysteryMessages[mMsgIdx].length) {
-        mTargetEl.textContent += mysteryMessages[mMsgIdx].charAt(mCharIdx);
-        mCharIdx++;
-        setTimeout(typeMystery, 100);
-    } else {
-        setTimeout(eraseMystery, 2500);
-    }
-}
-
-function eraseMystery() {
-    if (mCharIdx > 0) {
-        mTargetEl.textContent = mysteryMessages[mMsgIdx].substring(0, mCharIdx - 1);
-        mCharIdx--;
-        setTimeout(eraseMystery, 50);
-    } else {
-        mMsgIdx = (mMsgIdx + 1) % mysteryMessages.length;
-        setTimeout(typeMystery, 500);
-    }
-}
-// ابدأ تشغيل الرسائل فور الدخول
+function typeMystery() {if (mCharIdx < mysteryMessages[mMsgIdx].length) {mTargetEl.textContent += mysteryMessages[mMsgIdx].charAt(mCharIdx);mCharIdx++;setTimeout(typeMystery, 100);} else {setTimeout(eraseMystery, 2500);}}
+function eraseMystery() {if (mCharIdx > 0) {mTargetEl.textContent = mysteryMessages[mMsgIdx].substring(0, mCharIdx - 1);mCharIdx--;setTimeout(eraseMystery, 50);} else {mMsgIdx = (mMsgIdx + 1) % mysteryMessages.length;setTimeout(typeMystery, 500);}}
 setTimeout(typeMystery, 3000);
 
-// ===== WEB AUDIO ENGINE =====
 let audioCtx;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 function playTone(freq,type,dur,vol){try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=type||'sawtooth';o.frequency.setValueAtTime(freq,c.currentTime);o.frequency.exponentialRampToValueAtTime(freq*0.3,c.currentTime+dur);g.gain.setValueAtTime(vol||0.15,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+dur);o.start();o.stop(c.currentTime+dur);}catch(e){}}
@@ -357,91 +354,47 @@ function playNoise(dur,vol){try{const c=getACtx(),buf=c.createBuffer(1,c.sampleR
 function playWhisperSound(){try{const c=getACtx(),buf=c.createBuffer(1,c.sampleRate*1.5,c.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++){const env=Math.sin(Math.PI*i/d.length);d[i]=(Math.random()*2-1)*0.15*env;}const s=c.createBufferSource(),g=c.createGain(),f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=600;s.buffer=buf;s.connect(f);f.connect(g);g.connect(c.destination);g.gain.value=0.35;s.start();}catch(e){}}
 function playGlitchSound(){[200,150,300,100,250].forEach((f,i)=>setTimeout(()=>playTone(f,'square',0.05,0.2),i*40));}
 
-// ===== SPLATTER =====
-const sc=document.getElementById('splatter-canvas');
-const sc2=sc.getContext('2d');
+const sc=document.getElementById('splatter-canvas'), sc2=sc.getContext('2d');
 function resizeSc(){sc.width=window.innerWidth;sc.height=window.innerHeight;}
 resizeSc();window.addEventListener('resize',resizeSc);
 function drawSplatter(x,y,r){sc2.save();for(let i=0;i<Math.floor(Math.random()*8)+4;i++){const a=Math.random()*Math.PI*2,d=Math.random()*r,rs=Math.random()*12+3;sc2.beginPath();sc2.arc(x+Math.cos(a)*d,y+Math.sin(a)*d,rs,0,Math.PI*2);sc2.fillStyle=`rgba(${180+Math.random()*50|0},0,0,${0.5+Math.random()*0.4})`;sc2.fill();}for(let i=0;i<3;i++){const sx=x+(Math.random()-0.5)*r;sc2.beginPath();sc2.moveTo(sx,y);sc2.lineTo(sx+(Math.random()-0.5)*20,y+Math.random()*60+20);sc2.strokeStyle=`rgba(180,0,0,${0.4+Math.random()*0.3})`;sc2.lineWidth=Math.random()*4+2;sc2.lineCap='round';sc2.stroke();}sc2.restore();}
 
-// ===== LOADING =====
 const loadMsgs=["INITIALIZING SYSTEM...","SCANNING SUBJECT...","LOADING MEMORIES...","ACCESSING RESTRICTED FILES...","CALIBRATING FEAR RESPONSE...","DETECTING HEARTBEAT...","HE IS WATCHING YOU...","ALMOST READY...","DO NOT CLOSE THIS TAB...","THERE IS NO ESCAPE..."];
 const typeMsgs=["> scanning biometrics...","> fear level: CRITICAL","> subject located","> initiating protocol 666","> ██████ classified","> you cannot run"];
 let loadProgress=0,lmI=0,ltI=0;
 function typeChar(str,el,cb){el.textContent='';let i=0;const t=setInterval(()=>{if(i<str.length)el.textContent+=str[i++];else{clearInterval(t);if(cb)cb();}},40);}
-function runLoading(){
-    const interval=setInterval(()=>{
-        loadProgress+=Math.random()*3+0.5;if(loadProgress>=100)loadProgress=100;
-        document.getElementById('loading-bar').style.width=loadProgress+'%';
-        document.getElementById('loading-percent').textContent=Math.floor(loadProgress)+'%';
-        if(loadProgress>lmI*11&&lmI<loadMsgs.length)document.getElementById('loading-text').textContent=loadMsgs[lmI++];
-        if(loadProgress>ltI*16&&ltI<typeMsgs.length)typeChar(typeMsgs[ltI++],document.getElementById('loading-type-text'));
-        if(loadProgress>=100){
-            clearInterval(interval);
-            setTimeout(()=>{const ls=document.getElementById('loading-screen');ls.style.transition='opacity 1.5s';ls.style.opacity='0';setTimeout(()=>{ls.style.display='none';document.getElementById('start-screen').style.display='flex';},1500);},800);
-        }
-    },90);
-}
+function runLoading(){const interval=setInterval(()=>{loadProgress+=Math.random()*3+0.5;if(loadProgress>=100)loadProgress=100;document.getElementById('loading-bar').style.width=loadProgress+'%';document.getElementById('loading-percent').textContent=Math.floor(loadProgress)+'%';if(loadProgress>lmI*11&&lmI<loadMsgs.length)document.getElementById('loading-text').textContent=loadMsgs[lmI++];if(loadProgress>ltI*16&&ltI<typeMsgs.length)typeChar(typeMsgs[ltI++],document.getElementById('loading-type-text'));if(loadProgress>=100){clearInterval(interval);setTimeout(()=>{const ls=document.getElementById('loading-screen');ls.style.transition='opacity 1.5s';ls.style.opacity='0';setTimeout(()=>{ls.style.display='none';document.getElementById('start-screen').style.display='flex';},1500);},800);}},90);}
 runLoading();
 
-// ===== GLOBALS =====
-const audio=document.getElementById("bg-music");
-const body=document.getElementById("main-body");
-const tvNoise=document.getElementById("tv-noise");
+const audio=document.getElementById("bg-music"), body=document.getElementById("main-body"), tvNoise=document.getElementById("tv-noise");
 let flashInterval,isLoggedIn=false,heartbeatTimer,errorCount=0;
 
-// ===== COUNTDOWN =====
-function updateCountdown(){
-    const diff=new Date("May 10, 2026 00:00:00").getTime()-Date.now();
-    const pad=n=>String(Math.max(0,n)).padStart(2,'0');
-    if(diff>0){document.getElementById('days').textContent=pad(Math.floor(diff/(864e5)));document.getElementById('hours').textContent=pad(Math.floor(diff%864e5/36e5));document.getElementById('minutes').textContent=pad(Math.floor(diff%36e5/6e4));document.getElementById('seconds').textContent=pad(Math.floor(diff%6e4/1000));}
-    else['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='00');
-}
+function updateCountdown(){const diff=new Date("May 10, 2026 00:00:00").getTime()-Date.now();const pad=n=>String(Math.max(0,n)).padStart(2,'0');if(diff>0){document.getElementById('days').textContent=pad(Math.floor(diff/(864e5)));document.getElementById('hours').textContent=pad(Math.floor(diff%864e5/36e5));document.getElementById('minutes').textContent=pad(Math.floor(diff%36e5/6e4));document.getElementById('seconds').textContent=pad(Math.floor(diff%6e4/1000));}else['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='00');}
 setInterval(updateCountdown,1000);updateCountdown();
 
-// ===== CREEPY TEXT =====
 const phrases=["HE IS WAITING","WAKE UP","DON'T BLINK","IT'S TOO LATE","NO ESCAPE","CAN YOU FEEL IT?","TURN AROUND","ONE OF US","NOT ALONE","WE SEE YOU","RUN","TOO LATE","أنت لست وحدك","نحن نراك"];
 let pIdx=0;
 setInterval(()=>{if(!isLoggedIn){pIdx=(pIdx+1)%phrases.length;const el=document.getElementById('dynamic-creepy-text');el.style.opacity='0';el.style.transition='opacity 0.3s';setTimeout(()=>{el.textContent=phrases[pIdx];el.style.opacity='';},350);}},2800);
 
-// ===== EYES =====
 document.addEventListener('mousemove',(e)=>{document.querySelectorAll('.pupil').forEach(pupil=>{const eye=pupil.parentElement,rect=eye.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,angle=Math.atan2(e.clientY-cy,e.clientX-cx),mx=Math.cos(angle)*5,my=Math.sin(angle)*5;pupil.style.transform=`translate(calc(-50% + ${mx}px),calc(-50% + ${my}px))`;});});
 
-// ===== BLOOD =====
 function createBloodDrip(){const c=document.getElementById('blood-container'),d=document.createElement('div');d.classList.add('blood-drip');const x=Math.random()*window.innerWidth,h=Math.random()*250+100,dur=Math.random()*4+2,w=Math.random()*6+3;d.style.left=x+'px';d.style.width=w+'px';d.style.setProperty('--drip-height',h+'px');d.style.animation=`drip ${dur}s linear forwards`;d.style.borderRadius=`0 0 ${w*2}px ${w*2}px`;c.appendChild(d);setTimeout(()=>d.remove(),(dur*1000)+500);}
-
-// ===== GLITCH LINES =====
 function spawnGlitchLines(n){const c=document.getElementById('glitch-lines');for(let i=0;i<n;i++){const l=document.createElement('div');l.classList.add('glitch-line');l.style.top=(Math.random()*100)+'%';l.style.width=(Math.random()*40+5)+'%';l.style.animationDuration=(Math.random()*0.25+0.05)+'s';c.appendChild(l);setTimeout(()=>l.remove(),500);}}
-
-// ===== CRACKS =====
 function showCracks(){document.getElementById('crack-overlay').style.opacity='1';}
 function hideCracks(){const c=document.getElementById('crack-overlay');c.style.transition='opacity 1.5s';c.style.opacity='0';setTimeout(()=>c.style.transition='',1600);}
 
-// ===== PARANOIA =====
 const paranoiaMsgs=["انظر خلفك الآن","شيء ما يراقبك","أسمع تنفسك","لا تطفئ الأضواء","أنت لست وحدك","أعرف أين أنت","اقتربت من النهاية"];
 let parIdx=0;
 function showParanoia(){if(isLoggedIn)return;const el=document.getElementById('paranoia-msg');el.textContent=paranoiaMsgs[parIdx%paranoiaMsgs.length];el.style.color='rgba(255,0,0,0.5)';playWhisperSound();setTimeout(()=>el.style.color='rgba(255,0,0,0)',3000);parIdx++;}
 
-// ===== TYPING OVERLAY =====
 const typingMsgs=["أنت... تعرف أن شيئاً ما خطأ هنا.","أغلق الصفحة... إذا كنت تستطيع.","لقد رأيناك... من البداية.","الوقت يقترب... هل أنت مستعد؟","HE IS ALREADY HERE.","DON'T LOOK BEHIND YOU... TOO LATE."];
 let tyIdx=0;
-function triggerTypingOverlay(){
-    if(isLoggedIn)return;
-    const overlay=document.getElementById('typing-overlay'),textEl=document.getElementById('typing-text'),msg=typingMsgs[tyIdx%typingMsgs.length];tyIdx++;
-    overlay.style.display='flex';textEl.textContent='';playTone(120,'sawtooth',0.5,0.1);
-    let i=0;const t=setInterval(()=>{if(i<msg.length){textEl.textContent+=msg[i++];if(Math.random()<0.1)playGlitchSound();}else{clearInterval(t);setTimeout(()=>{overlay.style.transition='opacity 0.8s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';overlay.style.opacity='1';overlay.style.transition='';},850);},2500);}},60);
-}
+function triggerTypingOverlay(){if(isLoggedIn)return;const overlay=document.getElementById('typing-overlay'),textEl=document.getElementById('typing-text'),msg=typingMsgs[tyIdx%typingMsgs.length];tyIdx++;overlay.style.display='flex';textEl.textContent='';playTone(120,'sawtooth',0.5,0.1);let i=0;const t=setInterval(()=>{if(i<msg.length){textEl.textContent+=msg[i++];if(Math.random()<0.1)playGlitchSound();}else{clearInterval(t);setTimeout(()=>{overlay.style.transition='opacity 0.8s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';overlay.style.opacity='1';overlay.style.transition='';},850);},2500);}},60);}
 
-// ===== SHADOW FACE =====
 function showShadowFace(){if(isLoggedIn)return;const f=document.getElementById('shadow-face');f.style.opacity='0.12';f.style.transform='translate(-50%,-50%) scale(1.1)';playTone(60,'sine',1,0.08);setTimeout(()=>{f.style.opacity='0';f.style.transform='translate(-50%,-50%) scale(0.5)';},2000);}
-
-// ===== CORNER EYES =====
 function flashCornerFaces(){if(isLoggedIn)return;['cf-tl','cf-tr','cf-bl','cf-br'].forEach((id,i)=>{setTimeout(()=>{const el=document.getElementById(id);el.style.opacity='0.4';setTimeout(()=>el.style.opacity='0',500);},i*80);});}
-
-// ===== HEARTBEAT SOUND =====
 function startHeartbeatSound(){let bpm=58;function beat(){if(isLoggedIn)return;playHeartbeat();heartbeatTimer=setTimeout(()=>{if(bpm<95)bpm+=0.4;beat();},60000/bpm);}setTimeout(beat,5000);}
 
-// ===== HORROR EVENTS =====
 function startHorrorEvents(){
     setInterval(()=>{if(Math.random()<0.5)createBloodDrip();},1200);
     let poolH=0;setInterval(()=>{if(poolH<90){poolH+=0.4;document.getElementById('blood-pool').style.height=poolH+'px';}},2000);
@@ -463,13 +416,12 @@ function startHorrorEvents(){
     setInterval(()=>{if(!isLoggedIn&&Math.random()<0.15){drawSplatter(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.3,40);}},8000);
 }
 
-// ===== LOGIN =====
 document.getElementById('loginForm').addEventListener('submit',function(e){
     e.preventDefault();
     const u=document.getElementById('username').value.trim(),p=document.getElementById('password').value.trim();
     if(u==='لابوبو'&&p==='بالغ'){
         isLoggedIn=true;clearTimeout(heartbeatTimer);resetHorror();
-        ['eye-container','heartbeat-container','whisper-text','shadow-face','blood-pool','paranoia-msg', 'investigation-area'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+        ['eye-container','heartbeat-container','whisper-text','shadow-face','blood-pool','paranoia-msg', 'investigation-area', 'game-section'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
         document.querySelector('.creepy-bg-text-container').style.display='none';
         sc2.clearRect(0,0,sc.width,sc.height);
         showPage('welcome-page');
@@ -528,7 +480,6 @@ function startCreepyExperience(){
     let fi=setInterval(()=>{if(audio.volume<0.4)audio.volume+=0.03;else clearInterval(fi);},1500);
     startHorrorEvents();
     setTimeout(()=>{for(let i=0;i<12;i++)setTimeout(()=>createBloodDrip(),i*150);playTone(80,'sawtooth',1.5,0.12);},500);
-    setTimeout(()=>{if(!isLoggedIn)showShadowFace();},8000);
 }
 </script>
 </body>
