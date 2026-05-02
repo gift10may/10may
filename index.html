@@ -3,909 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grand regent</title>
-    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap)" rel="stylesheet">
+    <title>Grand Regent - SYSTEM OVERRIDE</title>
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Courier+Prime:wght@400;700&display=swap)" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --black: #0a0a0a;
-            --black-light: #111111;
-            --white: #ffffff;
-            --gold: #c9a227;
-            --gold-light: #d4af37;
-            --gray: #2a2a2a;
-            --gray-light: #888888;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--black);
-            color: var(--white);
-            overflow-x: hidden;
-            line-height: 1.8;
-        }
-
-        /* Stars Background */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{--black:#050505;--white:#d1d1d1;--blood-dark:#4a0000;--blood-red:#8a0303;--blood-bright:#ff0000;--gray-light:#666666;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Tajawal',sans-serif;background-color:var(--black);color:var(--white);overflow-x:hidden;line-height:1.8;cursor:url("data:image/svg+xml,%3Csvg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff0000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23ff0000' stroke-width='1' opacity='0.5'/%3E%3Cline x1='16' y1='0' x2='16' y2='8' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='16' y1='24' x2='16' y2='32' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='0' y1='16' x2='8' y2='16' stroke='%23ff0000' stroke-width='1'/%3E%3Cline x1='24' y1='16' x2='32' y2='16' stroke='%23ff0000' stroke-width='1'/%3E%3C/svg%3E") 16 16, crosshair;}
+        
+        .investigation-container {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            background: var(--white);
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            opacity: 0;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: var(--opacity); transform: scale(1); }
-        }
-
-        /* Ambient Glow */
-        .ambient-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(201, 162, 39, 0.03) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-            animation: ambientPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes ambientPulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        /* Page Sections */
-        .page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
             position: relative;
-            z-index: 1;
-        }
-
-        /* Login Page */
-        #login-page {
-            background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 50%, #0a0a0a 100%);
-        }
-
-        .main-title {
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            font-weight: 800;
-            margin-bottom: 10px;
+            border: 2px solid #220000;
+            padding: 5px;
+            background: #000;
+            box-shadow: 0 0 20px rgba(138, 3, 3, 0.3);
             opacity: 0;
-            animation: fadeInUp 1.5s ease forwards;
-            background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 50%, var(--white) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 60px rgba(201, 162, 39, 0.4));
+            animation: fadeIn 2s ease forwards 1s;
         }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--gray-light);
-            margin-bottom: 50px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.3s forwards;
-            font-weight: 300;
-            letter-spacing: 3px;
-        }
-
-        /* Countdown */
-        .countdown-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.5s forwards;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .countdown-item {
-            text-align: center;
-            min-width: 85px;
-            padding: 20px 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .countdown-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.3;
-        }
-
-        .countdown-number {
-            font-size: clamp(2.2rem, 7vw, 3.5rem);
-            font-weight: 700;
-            color: var(--white);
+        .investigation-photo {
+            width: 100%;
             display: block;
-            line-height: 1;
+            filter: grayscale(0.4) contrast(1.2) brightness(0.8);
+            border: 1px solid #440000;
         }
-
-        .countdown-label {
-            font-size: 0.75rem;
-            color: var(--gray-light);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 12px;
-            font-weight: 300;
-        }
-
-        /* Login Form */
-        .login-form {
-            width: 100%;
-            max-width: 360px;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.7s forwards;
-        }
-
-        .input-group {
-            margin-bottom: 22px;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--gray-light);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            font-weight: 300;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 16px 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            color: var(--white);
-            font-size: 1rem;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.4s ease;
-            text-align: right;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: rgba(201, 162, 39, 0.5);
-            background: rgba(201, 162, 39, 0.03);
-            box-shadow: 0 0 40px rgba(201, 162, 39, 0.08);
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.15);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px 40px;
-            background: transparent;
-            border: 1px solid rgba(201, 162, 39, 0.6);
-            color: var(--gold);
-            font-size: 1rem;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 500;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn:hover {
-            background: var(--gold);
-            color: var(--black);
-            border-color: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 50px rgba(201, 162, 39, 0.25);
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.85rem;
-            margin-top: 18px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .error-message.show {
-            opacity: 1;
-        }
-
-        /* Welcome Page */
-        #welcome-page {
-            display: none;
-            background: radial-gradient(ellipse at center, #0f0f0f 0%, #0a0a0a 70%);
-        }
-
-        .welcome-title {
-            font-size: clamp(2.8rem, 9vw, 5.5rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            opacity: 0;
-            background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 40px rgba(201, 162, 39, 0.3));
-        }
-
-        .welcome-subtitle {
-            font-size: clamp(1rem, 3vw, 1.4rem);
-            color: var(--gray-light);
-            font-weight: 300;
-            margin-bottom: 50px;
-            opacity: 0;
-            letter-spacing: 2px;
-        }
-
-        .btn-start {
-            opacity: 0;
-            padding: 14px 55px;
-            font-size: 0.95rem;
-            width: auto;
-        }
-
-        /* Poem Page */
-        #poem-page {
-            display: none;
-            padding: 100px 20px;
-            min-height: auto;
-        }
-
-        .poem-container {
-            max-width: 850px;
-            width: 100%;
-        }
-
-        .poem-title {
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
-            color: var(--gold);
-            margin-bottom: 70px;
-            text-align: center;
-            font-weight: 600;
-            opacity: 0;
-            letter-spacing: 2px;
-        }
-
-        .poem-verse {
-            font-size: clamp(1.15rem, 2.8vw, 1.45rem);
-            line-height: 2.4;
-            margin-bottom: 20px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.88);
-            padding: 0 10px;
-        }
-
-        .poem-verse.highlight {
-            color: var(--gold-light);
-            font-weight: 500;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
-
-        .poem-divider {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 40px auto;
-            opacity: 0;
-        }
-
-        .btn-next {
-            margin-top: 70px;
-            opacity: 0;
-            padding: 14px 45px;
-            width: auto;
-        }
-
-        /* Message Page */
-        #message-page {
-            display: none;
-            padding: 100px 20px;
-        }
-
-        .message-container {
-            max-width: 720px;
-            width: 100%;
-        }
-
-        .message-title {
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
-            color: var(--gold);
-            margin-bottom: 55px;
-            text-align: center;
-            font-weight: 600;
-            opacity: 0;
-            letter-spacing: 2px;
-        }
-
-        .message-text {
-            font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-            line-height: 2.5;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 300;
-            opacity: 0;
-        }
-
-        .message-text p {
-            margin-bottom: 35px;
-        }
-
-        .message-signature {
-            color: var(--gold-light);
-            font-weight: 500;
-            margin-top: 20px;
-            font-size: 1.1rem;
-        }
-
-        .btn-final {
-            margin-top: 60px;
-            opacity: 0;
-            width: auto;
-            padding: 14px 45px;
-        }
-
-        /* Final Page */
-        #final-page {
-            display: none;
-            background: radial-gradient(ellipse at center, #15120d 0%, #0a0a0a 70%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        #final-page::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(201, 162, 39, 0.06) 0%, transparent 60%);
-            pointer-events: none;
-            animation: finalGlow 4s ease-in-out infinite;
-        }
-
-        @keyframes finalGlow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        .final-title {
-            font-size: clamp(1.8rem, 6vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 25px;
-            opacity: 0;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 40%, var(--white) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-            filter: drop-shadow(0 0 50px rgba(201, 162, 39, 0.4));
-        }
-
-        .final-date {
-            font-size: clamp(1.3rem, 4vw, 2.2rem);
-            color: var(--white);
-            font-weight: 300;
-            margin-bottom: 55px;
-            opacity: 0;
-            letter-spacing: 6px;
-        }
-
-        .btn-restart {
-            opacity: 0;
-            padding: 12px 35px;
+        #mystery-typing-box {
+            font-family: 'Courier Prime', monospace;
+            color: var(--blood-bright);
             font-size: 0.9rem;
-            border-color: rgba(201, 162, 39, 0.4);
-            color: rgba(201, 162, 39, 0.7);
-            width: auto;
-        }
-
-        .btn-restart:hover {
-            border-color: var(--gold);
-            color: var(--black);
-        }
-
-        /* Signature */
-        .signature {
-            position: absolute;
-            bottom: 35px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.2);
-            font-weight: 300;
+            text-align: center;
+            min-height: 40px;
+            margin-top: 15px;
             letter-spacing: 2px;
+            text-shadow: 0 0 5px var(--blood-red);
+        }
+        .typing-cursor {
+            border-left: 8px solid var(--blood-bright);
+            animation: blink 0.7s infinite;
+            margin-left: 5px;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .animate-in {
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        /* Page Transition */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* ====== ستايل اللعبة ====== */
+        .game-wrapper {
             width: 100%;
-            height: 100%;
-            background: var(--black);
-            z-index: 1000;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
+            animation: fadeIn 2s ease forwards 1.5s;
         }
-
-        .page-transition.active {
-            opacity: 1;
-            pointer-events: all;
+        .game-label {
+            font-family: 'Courier Prime', monospace;
+            color: var(--blood-red);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 10px;
         }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .game-wrapper iframe {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #8a0303;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(138,3,3,0.5);
+            display: block;
+            background: #000;
         }
+        /* ====== نهاية ستايل اللعبة ====== */
 
-        ::-webkit-scrollbar-track {
-            background: var(--black);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(201, 162, 39, 0.3);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(201, 162, 39, 0.5);
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .countdown-container {
-                gap: 10px;
-            }
-            
-            .countdown-item {
-                min-width: 70px;
-                padding: 15px 10px;
-            }
-            
-            .page {
-                padding: 30px 18px;
-            }
-
-            .poem-verse {
-                line-height: 2.2;
-                margin-bottom: 18px;
-            }
-
-            .message-text {
-                line-height: 2.3;
-            }
-        }
+        #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;}
+        #loading-skull{font-size:4rem;animation:skullPulse 1s infinite;filter:drop-shadow(0 0 20px #ff0000);}
+        @keyframes skullPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+        #loading-bar-wrap{width:280px;height:3px;background:#1a0000;border:1px solid #3a0000;overflow:hidden;}
+        #loading-bar{height:100%;width:0%;background:var(--blood-bright);box-shadow:0 0 15px var(--blood-red);}
+        #loading-text{font-family:'Courier Prime',monospace;color:var(--blood-red);font-size:0.7rem;letter-spacing:3px;min-height:20px;text-align:center;}
+        #loading-percent{font-family:'Courier Prime',monospace;color:#3a0000;font-size:0.65rem;letter-spacing:2px;}
+        #loading-type-text{font-family:'Courier Prime',monospace;color:#600;font-size:0.6rem;letter-spacing:1px;min-height:16px;}
+        #start-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;justify-content:center;align-items:center;z-index:99999;cursor:pointer;flex-direction:column;gap:20px;}
+        #start-screen h2{font-family:'Courier Prime',monospace;color:var(--blood-red);text-align:center;font-weight:bold;letter-spacing:5px;font-size:3rem;animation:flicker 2s infinite;}
+        #start-screen span{font-size:14px;color:#444;letter-spacing:2px;}
+        .pulse-ring{width:100px;height:100px;border-radius:50%;border:2px solid var(--blood-red);animation:pulseRing 2s infinite;display:flex;align-items:center;justify-content:center;font-size:3rem;}
+        @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,0,0,0.4);}70%{box-shadow:0 0 0 30px rgba(255,0,0,0);}100%{box-shadow:0 0 0 0 rgba(255,0,0,0);}}
+        #crack-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50000;opacity:0;}
+        #blood-container{position:fixed;top:0;left:0;width:100%;height:0;pointer-events:none;z-index:9998;overflow:visible;}
+        .blood-drip{position:absolute;top:0;background:linear-gradient(180deg,#6a0000,#ff0000 60%,#8a0000);border-radius:0 0 50% 50%;animation:drip linear forwards;}
+        @keyframes drip{0%{height:0;opacity:0.95;}80%{opacity:0.9;}100%{height:var(--drip-height);opacity:0;}}
+        #blood-pool{position:fixed;bottom:0;left:0;width:100%;height:0;background:radial-gradient(ellipse at 50% 100%,#8a0000 0%,#4a0000 50%,transparent 100%);pointer-events:none;z-index:9997;transition:height 3s ease;}
+        #eye-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;display:none;}
+        .eye-pair{position:absolute;display:flex;gap:16px;align-items:center;}
+        .eye{width:44px;height:26px;background:#200;border-radius:50%;position:relative;border:1px solid #600;overflow:visible;}
+        .pupil{width:16px;height:16px;background:#ff0000;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 8px #ff0000;}
+        .pupil::after{content:'';width:6px;height:6px;background:#000;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+        #shadow-face{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.5);pointer-events:none;z-index:2;opacity:0;transition:opacity 0.3s ease,transform 0.3s ease;}
+        .corner-face{position:fixed;pointer-events:none;z-index:3;opacity:0;transition:opacity 0.3;font-size:4rem;filter:drop-shadow(0 0 10px #ff0000) grayscale(1) brightness(0.3);}
+        #cf-tl{top:10px;left:10px;}#cf-tr{top:10px;right:10px;}#cf-bl{bottom:60px;left:10px;}#cf-br{bottom:60px;right:10px;}
+        #typing-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:6;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,0.92);flex-direction:column;gap:20px;}
+        #typing-text{font-family:'Courier Prime',monospace;color:var(--blood-red);font-size:clamp(1.2rem,3vw,2rem);letter-spacing:4px;text-align:center;padding:0 20px;max-width:700px;line-height:2;}
+        #typing-cursor{animation:blink 0.5s infinite;}
+        @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+        #jumpscare-face-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;justify-content:center;align-items:center;z-index:100001;flex-direction:column;}
+        #jf-inner{width:min(80vw,500px);height:min(80vw,500px);display:flex;align-items:center;justify-content:center;}
+        .vignette{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:4;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.9) 100%);}
+        .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:4;opacity:0.04;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px);}
+        #heartbeat-container{position:fixed;bottom:0;left:0;width:100%;pointer-events:none;z-index:5;opacity:0;height:50px;}
+        #glitch-lines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;overflow:hidden;}
+        .glitch-line{position:absolute;height:2px;background:var(--blood-bright);opacity:0.85;animation:glitchLine linear forwards;}
+        @keyframes glitchLine{0%{transform:translateX(-100%);}100%{transform:translateX(110vw);}}
+        #red-flash{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(200,0,0,0.4) 100%);}
+        @keyframes flashPulse{0%,100%{opacity:0;}50%{opacity:1;}}
+        #whisper-text{position:fixed;bottom:55px;left:50%;transform:translateX(-50%);font-family:'Courier Prime',monospace;font-size:0.6rem;color:rgba(255,0,0,0.12);letter-spacing:8px;pointer-events:none;z-index:6;white-space:nowrap;}
+        .static-noise{position:fixed;top:0;left:0;width:100%;height:100%;background-image:url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22[w3.org](http://www.w3.org/2000/svg%22%3E%3Cfilter) id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');opacity:0;pointer-events:none;z-index:10001;mix-blend-mode:overlay;}
+        .static-active{opacity:0.7;animation:flicker 0.08s infinite;}
+        #jumpscare{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;justify-content:center;align-items:center;z-index:100000;text-align:center;flex-direction:column;}
+        #jumpscare-text{font-family:'Courier Prime',monospace;color:var(--blood-bright);font-size:clamp(3rem,10vw,8rem);font-weight:900;}
+        @keyframes flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1;}20%,24%,55%{opacity:0.2;}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+        @keyframes violent-shake{0%{transform:translate(15px,15px)rotate(2deg);}20%{transform:translate(-15px,-15px)rotate(-2deg);}40%{transform:translate(15px,-15px)rotate(2deg);}60%{transform:translate(-15px,15px)rotate(-2deg);}80%{transform:translate(15px,15px)rotate(2deg);}100%{transform:translate(-15px,-15px)rotate(-2deg);}}
+        .shake-active{animation:violent-shake 0.08s infinite;filter:contrast(200%) saturate(300%);}
+        @keyframes glitchAnim{0%,14%,15%,49%,50%,99%,100%{text-shadow:0.05em 0 0 rgba(255,0,0,0.75),-0.025em -0.05em 0 rgba(0,0,0,0.75),0.025em 0.05em 0 rgba(138,3,3,0.75);}15%,49%{text-shadow:-0.05em -0.025em 0 rgba(255,0,0,0.75),0.025em 0.025em 0 rgba(0,0,0,0.75),-0.05em -0.05em 0 rgba(138,3,3,0.75);}50%,99%{text-shadow:0.025em 0.05em 0 rgba(255,0,0,0.75),0.05em 0 0 rgba(0,0,0,0.75),0 -0.05em 0 rgba(138,3,3,0.75);}}
+        @keyframes distortBody{0%,100%{filter:none;}25%{filter:hue-rotate(180deg) saturate(5);}50%{filter:invert(0.08) contrast(1.4);}75%{filter:hue-rotate(90deg) brightness(0.9);}}
+        .blood-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:radial-gradient(circle at 50% 50%,rgba(138,3,3,0.07) 0%,transparent 80%);animation:bloodPulse 5s ease-in-out infinite alternate;}
+        @keyframes bloodPulse{0%{opacity:0.3;}100%{opacity:1;}}
+        .creepy-bg-text-container{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;text-align:center;z-index:0;pointer-events:none;opacity:0.07;}
+        .creepy-word{font-family:'Courier Prime',monospace;font-size:clamp(4rem,15vw,10rem);color:var(--blood-bright);font-weight:900;text-transform:uppercase;animation:glitchAnim 2s infinite linear alternate-reverse;white-space:nowrap;}
+        .page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;position:relative;z-index:10;}
+        #login-page{background:transparent;}
+        .glitch{position:relative;color:var(--white);text-shadow:0.05em 0 0 rgba(255,0,0,0.75),-0.025em -0.05em 0 rgba(0,0,0,0.75),0.025em 0.05em 0 rgba(138,3,3,0.75);animation:glitchAnim 2.5s infinite linear alternate-reverse;}
+        .main-title{font-family:'Courier Prime',monospace;font-size:clamp(3.5rem,10vw,6rem);font-weight:900;margin-bottom:10px;opacity:0;animation:fadeInUp 1.5s ease forwards;text-transform:uppercase;}
+        .subtitle{font-family:'Courier Prime',monospace;font-size:1.1rem;color:var(--blood-red);margin-bottom:50px;opacity:0;animation:fadeInUp 1.5s ease 0.3s forwards,flicker 3s infinite;font-weight:700;letter-spacing:3px;}
+        .countdown-container{display:flex;gap:15px;margin-bottom:60px;opacity:0;animation:fadeInUp 1.5s ease 0.5s forwards;flex-wrap:wrap;justify-content:center;}
+        .countdown-item{text-align:center;min-width:85px;padding:20px 15px;background:rgba(10,0,0,0.8);border:1px solid var(--blood-dark);border-radius:4px;box-shadow:inset 0 0 10px rgba(138,3,3,0.2);}
+        .countdown-number{font-family:'Courier Prime',monospace;font-size:clamp(2.2rem,7vw,3.5rem);font-weight:700;color:var(--blood-bright);display:block;line-height:1;text-shadow:0 0 10px var(--blood-red);}
+        .countdown-label{font-size:0.75rem;color:var(--gray-light);letter-spacing:2px;margin-top:12px;font-weight:700;}
+        .login-form{width:100%;max-width:360px;opacity:0;animation:fadeInUp 1.5s ease 0.7s forwards;background:rgba(0,0,0,0.7);padding:24px;border-radius:8px;border:1px solid #1a0000;}
+        .input-group{margin-bottom:22px;}
+        .input-group label{display:block;font-size:0.8rem;color:var(--blood-red);margin-bottom:10px;letter-spacing:1px;font-weight:700;}
+        .input-group input{width:100%;padding:16px 18px;background:#000;border:1px solid var(--blood-dark);border-radius:4px;color:var(--blood-bright);font-size:1rem;font-family:'Tajawal',sans-serif;transition:all 0.4s ease;text-align:center;}
+        .input-group input:focus{outline:none;border-color:var(--blood-bright);background:rgba(138,3,3,0.05);box-shadow:0 0 20px rgba(255,0,0,0.2);}
+        .btn{width:100%;padding:16px 40px;background:transparent;border:1px solid var(--blood-red);color:var(--blood-bright);font-size:1.1rem;font-family:'Tajawal',sans-serif;font-weight:800;border-radius:4px;cursor:pointer;transition:all 0.3s ease;text-transform:uppercase;}
+        .btn:hover{background:var(--blood-red);color:var(--white);box-shadow:0 0 30px rgba(138,3,3,0.6);}
+        .error-message{color:var(--blood-bright);font-size:0.9rem;margin-top:18px;text-align:center;opacity:0;font-weight:bold;font-family:'Courier Prime',monospace;}
+        .error-message.show{opacity:1;animation:flicker 0.4s infinite;}
+        .hint-text{color:var(--gray-light);font-family:'Courier Prime',monospace;font-size:0.8rem;text-align:center;margin-top:20px;cursor:pointer;text-decoration:underline;}
+        .hint-text:hover{color:var(--blood-bright);}
+        #welcome-page,#poem-page,#message-page,#final-page{display:none;background:#050505;}
+        .welcome-title{font-size:clamp(2.8rem,9vw,5.5rem);font-weight:900;margin-bottom:20px;opacity:0;color:var(--blood-bright);text-shadow:0 0 20px var(--blood-red);}
+        .welcome-subtitle{font-size:clamp(1rem,3vw,1.4rem);color:var(--gray-light);font-weight:700;margin-bottom:50px;opacity:0;letter-spacing:2px;}
+        .poem-container,.message-container{max-width:850px;width:100%;text-align:center;padding-top:50px;}
+        .poem-title,.message-title{font-size:clamp(1.6rem,4vw,2.2rem);color:var(--blood-bright);margin-bottom:50px;font-weight:900;opacity:0;}
+        .poem-verse{font-size:clamp(1.15rem,2.8vw,1.45rem);line-height:2.4;margin-bottom:20px;opacity:0;transform:translateY(30px);font-weight:500;color:var(--white);}
+        .poem-verse.highlight{color:var(--blood-bright);font-weight:800;text-shadow:0 0 10px var(--blood-red);}
+        .poem-divider{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--blood-red),transparent);margin:30px auto;opacity:0;}
+        .message-text{font-size:clamp(1.05rem,2.5vw,1.2rem);line-height:2.5;color:#b3b3b3;font-weight:500;opacity:0;}
+        .message-text p{margin-bottom:35px;}
+        .message-signature{color:var(--blood-bright);font-weight:900;font-size:1.2rem;}
+        .final-title{font-size:clamp(1.8rem,6vw,3.5rem);font-weight:900;margin-bottom:25px;opacity:0;color:var(--white);text-shadow:0 0 20px var(--blood-red);text-align:center;}
+        .final-date{font-family:'Courier Prime',monospace;font-size:clamp(1.3rem,4vw,2.2rem);color:var(--blood-bright);font-weight:700;margin-bottom:55px;opacity:0;letter-spacing:6px;}
+        .page-transition{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--blood-dark);z-index:1000;opacity:0;pointer-events:none;transition:opacity 0.8s ease;}
+        .page-transition.active{opacity:1;pointer-events:all;}
+        #paranoia-msg{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:'Courier Prime',monospace;font-size:0.65rem;color:rgba(255,0,0,0);letter-spacing:5px;pointer-events:none;z-index:7;white-space:nowrap;transition:color 1s ease;text-align:center;}
+        #splatter-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9996;}
     </style>
 </head>
-<body>
-    <!-- Stars Background -->
-    <div class="stars-container" id="stars"></div>
+<body id="main-body">
+<div id="loading-screen">
+    <div id="loading-skull">💀</div>
+    <div id="loading-text">INITIALIZING SYSTEM...</div>
+    <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
+    <div id="loading-percent">0%</div>
+    <div id="loading-type-text"></div>
+</div>
+<div id="start-screen" onclick="startCreepyExperience()">
+    <div class="pulse-ring">💀</div>
+    <h2>10 MAY<br><span>[ CLICK TO INITIATE ]</span></h2>
+</div>
+<canvas id="splatter-canvas"></canvas>
+<div class="static-noise" id="tv-noise"></div>
+<div id="jumpscare"><h1 id="jumpscare-text">LOOK BEHIND YOU</h1></div>
+<div id="jumpscare-face-overlay">
+    <div id="jf-inner">
+        <svg viewBox="0 0 300 300" xmlns="[w3.org](http://www.w3.org/2000/svg)" width="100%" height="100%">
+            <ellipse cx="150" cy="160" rx="110" ry="130" fill="#0a0000"/>
+            <ellipse cx="105" cy="130" rx="22" ry="14" fill="#ff0000"/>
+            <ellipse cx="195" cy="130" rx="22" ry="14" fill="#ff0000"/>
+            <circle cx="105" cy="130" r="8" fill="#000"/><circle cx="195" cy="130" r="8" fill="#000"/>
+            <circle cx="108" cy="127" r="3" fill="#ff6666"/><circle cx="198" cy="127" r="3" fill="#ff6666"/>
+            <path d="M90 200 Q105 175 120 195 Q135 215 150 190 Q165 165 180 190 Q195 215 210 200" stroke="#8a0000" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <line x1="105" y1="200" x2="108" y2="218" stroke="#600" stroke-width="2"/>
+            <line x1="120" y1="195" x2="123" y2="213" stroke="#600" stroke-width="2"/>
+            <line x1="135" y1="192" x2="138" y2="210" stroke="#600" stroke-width="2"/>
+            <line x1="150" y1="190" x2="153" y2="208" stroke="#600" stroke-width="2"/>
+            <line x1="165" y1="192" x2="168" y2="210" stroke="#600" stroke-width="2"/>
+            <line x1="180" y1="196" x2="183" y2="214" stroke="#600" stroke-width="2"/>
+            <line x1="195" y1="200" x2="198" y2="218" stroke="#600" stroke-width="2"/>
+            <path d="M50 60 Q80 100 105 130" stroke="#500" stroke-width="1" fill="none"/>
+            <path d="M250 60 Q220 100 195 130" stroke="#500" stroke-width="1" fill="none"/>
+            <path d="M150 30 L140 80 L155 130" stroke="#300" stroke-width="1" fill="none"/>
+            <path d="M140 80 L120 70" stroke="#300" stroke-width="0.5" fill="none"/>
+        </svg>
+    </div>
+</div>
+<div id="crack-overlay">
+    <svg viewBox="0 0 1000 800" preserveAspectRatio="none" xmlns="[w3.org](http://www.w3.org/2000/svg)" width="100%" height="100%">
+        <g stroke="#ff0000" stroke-width="1.5" fill="none" opacity="0.85">
+            <path d="M500,400 L420,300 L380,200 L340,100"/><path d="M500,400 L560,280 L610,160 L640,50"/>
+            <path d="M500,400 L440,510 L390,660 L350,800"/><path d="M500,400 L575,530 L640,700 L680,800"/>
+            <path d="M500,400 L300,380 L150,360 L0,350"/><path d="M500,400 L700,415 L860,435 L1000,450"/>
+            <path d="M420,300 L350,270 L280,250"/><path d="M560,280 L630,250 L710,220"/>
+            <path d="M440,510 L360,540 L280,570"/><path d="M575,530 L660,565 L750,590"/>
+        </g>
+        <circle cx="500" cy="400" r="20" stroke="#ff0000" stroke-width="1" fill="none" opacity="0.6"/>
+        <circle cx="500" cy="400" r="40" stroke="#ff0000" stroke-width="0.5" fill="none" opacity="0.3"/>
+    </svg>
+</div>
+<div id="blood-container"></div>
+<div id="blood-pool"></div>
+<div id="eye-container">
+    <div class="eye-pair" style="top:8%;left:5%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:12%;right:7%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:35%;left:2%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:38%;right:2%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:62%;left:4%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:65%;right:5%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:85%;left:15%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:85%;right:15%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:22%;left:22%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+    <div class="eye-pair" style="top:22%;right:22%"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div>
+</div>
+<div id="shadow-face">
+    <svg viewBox="0 0 200 200" xmlns="[w3.org](http://www.w3.org/2000/svg)" width="400" height="400">
+        <ellipse cx="100" cy="110" rx="70" ry="85" fill="#1a0000"/>
+        <ellipse cx="75" cy="90" rx="14" ry="9" fill="#ff0000" opacity="0.9"/>
+        <ellipse cx="125" cy="90" rx="14" ry="9" fill="#ff0000" opacity="0.9"/>
+        <circle cx="75" cy="90" r="6" fill="#000"/><circle cx="125" cy="90" r="6" fill="#000"/>
+        <path d="M65,140 Q100,160 135,140" stroke="#8a0000" stroke-width="2.5" fill="none"/>
+        <line x1="72" y1="143" x2="75" y2="153" stroke="#8a0000" stroke-width="2"/>
+        <line x1="85" y1="148" x2="88" y2="158" stroke="#8a0000" stroke-width="2"/>
+        <line x1="97" y1="151" x2="100" y2="161" stroke="#8a0000" stroke-width="2"/>
+        <line x1="109" y1="151" x2="112" y2="161" stroke="#8a0000" stroke-width="2"/>
+        <line x1="121" y1="148" x2="124" y2="158" stroke="#8a0000" stroke-width="2"/>
+        <line x1="133" y1="143" x2="136" y2="153" stroke="#8a0000" stroke-width="2"/>
+    </svg>
+</div>
+<div class="corner-face" id="cf-tl">👁️</div>
+<div class="corner-face" id="cf-tr">👁️</div>
+<div class="corner-face" id="cf-bl">👁️</div>
+<div class="corner-face" id="cf-br">👁️</div>
+<div id="paranoia-msg"></div>
+<div id="typing-overlay"><div id="typing-text"></div><span id="typing-cursor">_</span></div>
+<div id="heartbeat-container">
+    <svg id="heartbeat-svg" viewBox="0 0 1000 50" preserveAspectRatio="none" xmlns="[w3.org](http://www.w3.org/2000/svg)">
+        <polyline id="heartbeat-line" points="0,25 80,25 100,25 110,2 120,48 130,25 150,25 230,25 250,25 260,2 270,48 280,25 300,25 380,25 400,25 410,2 420,48 430,25 450,25 530,25 550,25 560,2 570,48 580,25 600,25 680,25 700,25 710,2 720,48 730,25 750,25 830,25 850,25 860,2 870,48 880,25 900,25 1000,25" fill="none" stroke="#ff0000" stroke-width="1.5" opacity="0.6"/>
+    </svg>
+</div>
+<div id="glitch-lines"></div>
+<div id="red-flash"></div>
+<div id="whisper-text">انظر خلفك...</div>
+<audio id="bg-music" loop><source src="song.mp3.mp3" type="audio/mp3"></audio>
+<div class="blood-bg"></div>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+<div class="creepy-bg-text-container"><div id="dynamic-creepy-text" class="creepy-word">HE IS WATCHING</div></div>
+<div class="page-transition" id="transition"></div>
+
+<section class="page" id="login-page">
     
-    <!-- Ambient Glow -->
-    <div class="ambient-glow"></div>
-    
-    <!-- Page Transition Overlay -->
-    <div class="page-transition" id="transition"></div>
+    <div class="investigation-container" id="investigation-area">
+        <img src="watermarked_img_17638007102797657220" alt="SUBJECT DOSSIER" class="investigation-photo" type="image/jpeg">
+        <div id="mystery-typing-box"><span id="mystery-text"></span><span class="typing-cursor"></span></div>
+    </div>
 
-    <!-- Login Page -->
-    <section class="page" id="login-page">
-        <h1 class="main-title">إلى أنس</h1>
-        <p class="subtitle">لحظة خاصة تنتظرك</p>
-        
-        <div class="countdown-container">
-            <div class="countdown-item">
-                <span class="countdown-number" id="days">00</span>
-                <span class="countdown-label">يوم</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">00</span>
-                <span class="countdown-label">ساعة</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">00</span>
-                <span class="countdown-label">دقيقة</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">00</span>
-                <span class="countdown-label">ثانية</span>
-            </div>
+    <h1 class="main-title glitch">Think Mark !!</h1>
+    <p class="subtitle">What will you have after 10 days ???</p>
+
+    <div class="countdown-container">
+        <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">يوم</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">ساعة</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">دقيقة</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">ثانية</span></div>
+    </div>
+
+    <!-- ====== اللعبة بين العداد وكلمة المرور ====== -->
+    <div class="game-wrapper">
+        <p class="game-label">// PLAY WHILE YOU WAIT //</p>
+        <iframe
+            src="[rosebud.ai](https://rosebud.ai/p/d825e4b2-a382-470d-88fa-d3f977be47ac)"
+            width="100%"
+            height="500px"
+            style="border: 2px solid #8a0303; border-radius: 4px; box-shadow: 0 0 30px rgba(138,3,3,0.5); display:block; background:#000;"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+        </iframe>
+    </div>
+    <!-- ====== نهاية اللعبة ====== -->
+
+    <form class="login-form" id="loginForm">
+        <div class="input-group"><label>SUBJECT NAME</label><input type="text" id="username" placeholder="NAME" autocomplete="off"></div>
+        <div class="input-group"><label>ACCESS KEY</label><input type="password" id="password" placeholder="KEY" autocomplete="off"></div>
+        <button type="submit" class="btn">GRANT ACCESS</button>
+        <div class="hint-text" onclick="triggerHint()">NEED A HINT?</div>
+        <p class="error-message" id="errorMsg">ACCESS DENIED. YOU FAILED.</p>
+    </form>
+</section>
+
+<section class="page" id="welcome-page">
+    <h2 class="welcome-title glitch">مرحبًا يا أنس</h2>
+    <p class="welcome-subtitle">هذا المكان صُنع لأجلك</p>
+    <button class="btn" style="width:auto;" onclick="showPage('poem-page')">ابدأ</button>
+</section>
+<section class="page" id="poem-page">
+    <div class="poem-container">
+        <h3 class="poem-title">قصيدة لك</h3>
+        <div class="poem-verse">تَمْضِي الوُجُوهُ كَمَا السَّحَابِ لِغَايَةٍ</div>
+        <div class="poem-verse">وَتَمُوتُ ذِكْرَاهَا، وَلَا نَتَذَكَّرُ</div>
+        <div class="poem-divider"></div>
+        <div class="poem-verse">لَكِنَّ أَرْوَاحًا تَمُرُّ بِعُمْرِنَا</div>
+        <div class="poem-verse">كَالغَيْثِ.. فِينَا تَسْتَقِرُّ وَتُزْهِرُ</div>
+        <div class="poem-divider"></div>
+        <div class="poem-verse highlight">هُوَ وَاحِدٌ.. لَكِنَّهُ عَنْ أُمَّةٍ</div>
+        <div class="poem-verse highlight">إِنْ مَالَ ظَهْرُ الخَائِفِينَ، يُجَبِّرُ</div>
+        <div class="poem-divider"></div>
+        <div class="poem-verse highlight">قُلْتُ: اهْتِفُوا بِاسْمِ "الأَنِيسِ" فَإِنَّهُ</div>
+        <div class="poem-verse highlight">"أَنَسٌ"، خِتَامُ المِسْكِ حِينَ يُسَطَّرُ!</div>
+        <div class="poem-divider"></div>
+        <div class="poem-verse">عِشْ فِي سَلَامٍ.. عُمْرُ مَجْدِكَ خَالِدٌ</div>
+        <div class="poem-verse">وَشُمُوخُ قَدْرِكَ كُلَّ عَامٍ يَكْبُرُ</div>
+        <button class="btn btn-next" style="margin-top:50px;width:auto;" onclick="showPage('message-page')">كلمة من القلب</button>
+    </div>
+</section>
+<section class="page" id="message-page">
+    <div class="message-container">
+        <h3 class="message-title">رسالة لك</h3>
+        <div class="message-text">
+            <p>أنس،</p>
+            <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني مو أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
+            <p>كل عام وأنت بخير يا أخوي، وكل عام وأنت محبوب مثل ما أنت، وعزيز عند كل من يعرفك. الله يديمك سالم، ويزيدك فرح ونجاح، ويخليك للي يحبونك كثير…</p>
+            <p class="message-signature">وأنا أولهم ♡</p>
         </div>
+        <button class="btn btn-final" style="margin-top:50px;width:auto;" onclick="showPage('final-page')">النهاية</button>
+    </div>
+</section>
+<section class="page" id="final-page">
+    <h2 class="final-title glitch">كل عام وأنت بخير يا أنس</h2>
+    <p class="final-date">١٠ مايو</p>
+    <button class="btn" style="width:auto;" onclick="restart()">أعد الزيارة</button>
+</section>
 
-        <form class="login-form" id="loginForm">
-            <div class="input-group">
-                <label>اسم المستخدم</label>
-                <input type="text" id="username" placeholder="أدخل اسم المستخدم" autocomplete="off">
-            </div>
-            <div class="input-group">
-                <label>كلمة المرور</label>
-                <input type="password" id="password" placeholder="أدخل كلمة المرور" autocomplete="off">
-            </div>
-            <button type="submit" class="btn">دخول</button>
-            <p class="error-message" id="errorMsg">البيانات غير صحيحة</p>
-        </form>
-    </section>
+<script>
+const mysteryMessages = [
+    "تم رصدك…",
+    "نعرف أنك هنا",
+    "اقترب الموعد",
+    "لم يتبق الكثير",
+    "تم اختيار الشخص الصحيح",
+    "النهاية ليست كما تتوقع",
+    "أنت الهدف… ولكن لسبب مختلف"
+];
 
-    <!-- Welcome Page -->
-    <section class="page" id="welcome-page">
-        <h2 class="welcome-title">مرحبًا يا أنس</h2>
-        <p class="welcome-subtitle">هذا المكان صُنع لأجلك</p>
-        <button class="btn btn-start" onclick="showPage('poem-page')">ابدأ</button>
-    </section>
+let mMsgIdx = 0;
+let mCharIdx = 0;
+const mTargetEl = document.getElementById('mystery-text');
 
-    <!-- Poem Page -->
-    <section class="page" id="poem-page">
-        <div class="poem-container">
-            <h3 class="poem-title">قصيدة لك</h3>
-            
-            <div class="poem-verse">تَمْضِي الوُجُوهُ كَمَا السَّحَابِ لِغَايَةٍ</div>
-            <div class="poem-verse">وَتَمُوتُ ذِكْرَاهَا، وَلَا نَتَذَكَّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">لَكِنَّ أَرْوَاحًا تَمُرُّ بِعُمْرِنَا</div>
-            <div class="poem-verse">كَالغَيْثِ.. فِينَا تَسْتَقِرُّ وَتُزْهِرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَمْضُونَ.. وَالأَثَرُ الجَمِيلُ يَدُلُّهُمْ</div>
-            <div class="poem-verse">وَالذِّكْرُ بَعْدَ غِيَابِهِمْ يَتَعَطَّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">عَاشَرْتُ أَصْنَافَ الأَنَامِ فَلَمْ أَجِدْ</div>
-            <div class="poem-verse">إِلَّا القَلِيلَ الَّذِي يَعِزُّ وَيَنْدُرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">حَتَّى رَأَيْتُ الصِّدْقَ يَمْشِي صَامِتًا</div>
-            <div class="poem-verse">وَالنُّبْلُ فِي قَسَمَاتِهِ يَتَصَوَّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">رَجُلٌ تَشَرَّبَ مِنْ أُصُولِ مَرَاجِلٍ</div>
-            <div class="poem-verse">فِي كَفِّهِ بَحْرُ المَكَارِمِ يَزْخَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse highlight">هُوَ وَاحِدٌ.. لَكِنَّهُ عَنْ أُمَّةٍ</div>
-            <div class="poem-verse highlight">إِنْ مَالَ ظَهْرُ الخَائِفِينَ، يُجَبِّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">إِنْ قِيلَ: مَنْ ذَاكَ الَّذِي بِحُضُورِهِ</div>
-            <div class="poem-verse">يُطْوَى الزَّمَانُ، وَكُلُّ مَجْدٍ يَصْغُرُ؟</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse highlight">قُلْتُ: اهْتِفُوا بِاسْمِ "الأَنِيسِ" فَإِنَّهُ</div>
-            <div class="poem-verse highlight">"أَنَسٌ"، خِتَامُ المِسْكِ حِينَ يُسَطَّرُ!</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَا لَيْتَ كُلَّ العَابِرِينَ كَشَخْصِهِ</div>
-            <div class="poem-verse">فِيهِ اكْتَفَيْتُ.. وَغَيْرُهُ لِي يَعْبُرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">يَا صَاحِبِي الَّذِي اسْتَقَامَ بِأَضْلُعِي</div>
-            <div class="poem-verse">وَأَخٌ بِهِ وَجْهُ الحَيَاةِ يُنَوِّرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">هَذَا نَهَارُ مَجِيئِكَ الدُّنْيَا لَنَا</div>
-            <div class="poem-verse">يَوْمٌ بِمِيلَادِ الشَّهَامَةِ يَفْخَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">إِنَّ الرِّجَالَ إِذَا تُعَدُّ، ذَكَرْتُكُمْ</div>
-            <div class="poem-verse">وَبِغَيْرِ ذِكْرِكَ مَجْلِسِي لَا يُعْمَرُ</div>
-            
-            <div class="poem-divider"></div>
-            
-            <div class="poem-verse">عِشْ فِي سَلَامٍ.. عُمْرُ مَجْدِكَ خَالِدٌ</div>
-            <div class="poem-verse">وَشُمُوخُ قَدْرِكَ كُلَّ عَامٍ يَكْبُرُ</div>
-            
-            <button class="btn btn-next" onclick="showPage('message-page')">كلمة من القلب</button>
-        </div>
-    </section>
+function typeMystery() {
+    if (mCharIdx < mysteryMessages[mMsgIdx].length) {
+        mTargetEl.textContent += mysteryMessages[mMsgIdx].charAt(mCharIdx);
+        mCharIdx++;
+        setTimeout(typeMystery, 100);
+    } else {
+        setTimeout(eraseMystery, 2500);
+    }
+}
 
-    <!-- Message Page -->
-    <section class="page" id="message-page">
-        <div class="message-container">
-            <h3 class="message-title">رسالة لك</h3>
-            
-            <div class="message-text">
-                <p>أنس،</p>
-                
-                <p>قبل نبدا الفعاليات، يبقى الكلام الصادق أبسط وأصدق. أنت بالنسبة لي أخ أكثر من مجرد صديق، وهذا شعور كبير لأنك شخص يعطي اللي حوله معنى جميل للقرب والمحبة. وأنا وإن كنت أشوفك أخوي، أعرف زين إني ما أنا الوحيد اللي يشوف فيك شيء كبير… لأن أمثالك يحبهم الجميع، ويكسبون القلوب بطبعهم قبل كلامهم.</p>
-                
-                <p>أنت من الناس اللي حضورهم يفرق، وإذا دخلوا مكان تركوا أثر طيب، والناس ترتاح لك لأن فيك صفاء وصدق ونية طيبة. محبتك ما وقفت على شخص أو اثنين، بل كل من عرفك عرف قدرك، وكل من قرب منك لمس معدنك الحقيقي.</p>
-                
-                <p>بالنسبة لي أنت أخ ما جابته الولادة لكن جابته الأيام، وبالنسبة لغيري أنت وجه طيب وصاحب عزيز وإنسان ينحب بسهولة. وهذا أجمل شيء فيك: أنك قريب من القلوب بدون تصنّع، وغالي بدون ما تطلب.</p>
-                
-                <p>كل عام وأنت بخير يا أخوي، وكل عام وأنت محبوب مثل ما أنت، وعزيز عند كل من يعرفك. الله يديمك سالم، ويزيدك فرح ونجاح، ويخليك للي يحبونك كثير…</p>
-                
-                <p class="message-signature">وأنا أولهم ♡</p>
-            </div>
-            
-            <button class="btn btn-final" onclick="showPage('final-page')">النهاية</button>
-        </div>
-    </section>
+function eraseMystery() {
+    if (mCharIdx > 0) {
+        mTargetEl.textContent = mysteryMessages[mMsgIdx].substring(0, mCharIdx - 1);
+        mCharIdx--;
+        setTimeout(eraseMystery, 50);
+    } else {
+        mMsgIdx = (mMsgIdx + 1) % mysteryMessages.length;
+        setTimeout(typeMystery, 500);
+    }
+}
+setTimeout(typeMystery, 3000);
 
-    <!-- Final Page -->
-    <section class="page" id="final-page">
-        <h2 class="final-title">كل عام وأنت بخير يا أنس</h2>
-        <p class="final-date">١٠ مايو</p>
-        <button class="btn btn-restart" onclick="restart()">أعد الزيارة</button>
-        <p class="signature">صُنع بكل حب</p>
-    </section>
+let audioCtx;
+function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function playTone(freq,type,dur,vol){try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=type||'sawtooth';o.frequency.setValueAtTime(freq,c.currentTime);o.frequency.exponentialRampToValueAtTime(freq*0.3,c.currentTime+dur);g.gain.setValueAtTime(vol||0.15,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+dur);o.start();o.stop(c.currentTime+dur);}catch(e){}}
+function playHeartbeat(){try{const c=getACtx();function thump(t,v){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(80,t);o.frequency.exponentialRampToValueAtTime(40,t+0.1);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);o.start(t);o.stop(t+0.15);}const n=c.currentTime;thump(n,0.3);thump(n+0.15,0.2);}catch(e){}}
+function playNoise(dur,vol){try{const c=getACtx(),buf=c.createBuffer(1,c.sampleRate*dur,c.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(c.sampleRate*0.15));const s=c.createBufferSource(),g=c.createGain(),f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=800;s.buffer=buf;s.connect(f);f.connect(g);g.connect(c.destination);g.gain.value=vol||0.4;s.start();}catch(e){}}
+function playWhisperSound(){try{const c=getACtx(),buf=c.createBuffer(1,c.sampleRate*1.5,c.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++){const env=Math.sin(Math.PI*i/d.length);d[i]=(Math.random()*2-1)*0.15*env;}const s=c.createBufferSource(),g=c.createGain(),f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=600;s.buffer=buf;s.connect(f);f.connect(g);g.connect(c.destination);g.gain.value=0.35;s.start();}catch(e){}}
+function playGlitchSound(){[200,150,300,100,250].forEach((f,i)=>setTimeout(()=>playTone(f,'square',0.05,0.2),i*40));}
 
-    <script>
-        // Create Stars
-        function createStars() {
-            const container = document.getElementById('stars');
-            const starCount = window.innerWidth < 600 ? 100 : 180;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                const size = Math.random() * 2 + 0.5;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.setProperty('--duration', (Math.random() * 5 + 3) + 's');
-                star.style.setProperty('--opacity', Math.random() * 0.6 + 0.2);
-                star.style.animationDelay = Math.random() * 6 + 's';
-                container.appendChild(star);
-            }
+const sc=document.getElementById('splatter-canvas');
+const sc2=sc.getContext('2d');
+function resizeSc(){sc.width=window.innerWidth;sc.height=window.innerHeight;}
+resizeSc();window.addEventListener('resize',resizeSc);
+function drawSplatter(x,y,r){sc2.save();for(let i=0;i<Math.floor(Math.random()*8)+4;i++){const a=Math.random()*Math.PI*2,d=Math.random()*r,rs=Math.random()*12+3;sc2.beginPath();sc2.arc(x+Math.cos(a)*d,y+Math.sin(a)*d,rs,0,Math.PI*2);sc2.fillStyle=`rgba(${180+Math.random()*50|0},0,0,${0.5+Math.random()*0.4})`;sc2.fill();}for(let i=0;i<3;i++){const sx=x+(Math.random()-0.5)*r;sc2.beginPath();sc2.moveTo(sx,y);sc2.lineTo(sx+(Math.random()-0.5)*20,y+Math.random()*60+20);sc2.strokeStyle=`rgba(180,0,0,${0.4+Math.random()*0.3})`;sc2.lineWidth=Math.random()*4+2;sc2.lineCap='round';sc2.stroke();}sc2.restore();}
+
+const loadMsgs=["INITIALIZING SYSTEM...","SCANNING SUBJECT...","LOADING MEMORIES...","ACCESSING RESTRICTED FILES...","CALIBRATING FEAR RESPONSE...","DETECTING HEARTBEAT...","HE IS WATCHING YOU...","ALMOST READY...","DO NOT CLOSE THIS TAB...","THERE IS NO ESCAPE..."];
+const typeMsgs=["> scanning biometrics...","> fear level: CRITICAL","> subject located","> initiating protocol 666","> ██████ classified","> you cannot run"];
+let loadProgress=0,lmI=0,ltI=0;
+function typeChar(str,el,cb){el.textContent='';let i=0;const t=setInterval(()=>{if(i<str.length)el.textContent+=str[i++];else{clearInterval(t);if(cb)cb();}},40);}
+function runLoading(){
+    const interval=setInterval(()=>{
+        loadProgress+=Math.random()*3+0.5;if(loadProgress>=100)loadProgress=100;
+        document.getElementById('loading-bar').style.width=loadProgress+'%';
+        document.getElementById('loading-percent').textContent=Math.floor(loadProgress)+'%';
+        if(loadProgress>lmI*11&&lmI<loadMsgs.length)document.getElementById('loading-text').textContent=loadMsgs[lmI++];
+        if(loadProgress>ltI*16&&ltI<typeMsgs.length)typeChar(typeMsgs[ltI++],document.getElementById('loading-type-text'));
+        if(loadProgress>=100){
+            clearInterval(interval);
+            setTimeout(()=>{const ls=document.getElementById('loading-screen');ls.style.transition='opacity 1.5s';ls.style.opacity='0';setTimeout(()=>{ls.style.display='none';document.getElementById('start-screen').style.display='flex';},1500);},800);
         }
-        createStars();
+    },90);
+}
+runLoading();
 
-        // Countdown to May 10th
-        function updateCountdown() {
-            const now = new Date();
-            let targetYear = now.getFullYear();
-            let target = new Date(targetYear, 4, 10, 0, 0, 0);
-            
-            if (now > target) {
-                target = new Date(targetYear + 1, 4, 10, 0, 0, 0);
-            }
-            
-            const diff = target - now;
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-        }
-        
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+const audio=document.getElementById("bg-music");
+const body=document.getElementById("main-body");
+const tvNoise=document.getElementById("tv-noise");
+let flashInterval,isLoggedIn=false,heartbeatTimer,errorCount=0;
 
-        // Login Handler
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            
-            if (username === 'لابوبو' && password === 'بالغ') {
-                showPage('welcome-page');
-            } else {
-                const errorMsg = document.getElementById('errorMsg');
-                errorMsg.classList.add('show');
-                
-                // Shake effect
-                const form = document.querySelector('.login-form');
-                form.style.animation = 'none';
-                form.offsetHeight;
-                form.style.animation = 'shake 0.5s ease';
-                
-                setTimeout(() => {
-                    errorMsg.classList.remove('show');
-                }, 3000);
-            }
-        });
+function updateCountdown(){
+    const diff=new Date("May 10, 2026 00:00:00").getTime()-Date.now();
+    const pad=n=>String(Math.max(0,n)).padStart(2,'0');
+    if(diff>0){document.getElementById('days').textContent=pad(Math.floor(diff/(864e5)));document.getElementById('hours').textContent=pad(Math.floor(diff%864e5/36e5));document.getElementById('minutes').textContent=pad(Math.floor(diff%36e5/6e4));document.getElementById('seconds').textContent=pad(Math.floor(diff%6e4/1000));}
+    else['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='00');
+}
+setInterval(updateCountdown,1000);updateCountdown();
 
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                20% { transform: translateX(-8px); }
-                40% { transform: translateX(8px); }
-                60% { transform: translateX(-8px); }
-                80% { transform: translateX(8px); }
-            }
-        `;
-        document.head.appendChild(style);
+const phrases=["HE IS WAITING","WAKE UP","DON'T BLINK","IT'S TOO LATE","NO ESCAPE","CAN YOU FEEL IT?","TURN AROUND","ONE OF US","NOT ALONE","WE SEE YOU","RUN","TOO LATE","أنت لست وحدك","نحن نراك"];
+let pIdx=0;
+setInterval(()=>{if(!isLoggedIn){pIdx=(pIdx+1)%phrases.length;const el=document.getElementById('dynamic-creepy-text');el.style.opacity='0';el.style.transition='opacity 0.3s';setTimeout(()=>{el.textContent=phrases[pIdx];el.style.opacity='';},350);}},2800);
 
-        // Page Navigation
-        function showPage(pageId) {
-            const transition = document.getElementById('transition');
-            transition.classList.add('active');
-            
-            setTimeout(() => {
-                document.querySelectorAll('.page').forEach(page => {
-                    page.style.display = 'none';
-                });
-                
-                const targetPage = document.getElementById(pageId);
-                targetPage.style.display = 'flex';
-                
-                window.scrollTo(0, 0);
-                
-                setTimeout(() => {
-                    transition.classList.remove('active');
-                    animatePage(pageId);
-                }, 150);
-            }, 600);
-        }
+document.addEventListener('mousemove',(e)=>{document.querySelectorAll('.pupil').forEach(pupil=>{const eye=pupil.parentElement,rect=eye.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,angle=Math.atan2(e.clientY-cy,e.clientX-cx),mx=Math.cos(angle)*5,my=Math.sin(angle)*5;pupil.style.transform=`translate(calc(-50% + ${mx}px),calc(-50% + ${my}px))`;});});
 
-        function animatePage(pageId) {
-            const page = document.getElementById(pageId);
-            
-            if (pageId === 'welcome-page') {
-                const title = page.querySelector('.welcome-title');
-                const subtitle = page.querySelector('.welcome-subtitle');
-                const btn = page.querySelector('.btn-start');
-                
-                setTimeout(() => { title.style.animation = 'fadeInUp 1.2s ease forwards'; }, 150);
-                setTimeout(() => { subtitle.style.animation = 'fadeInUp 1s ease forwards'; }, 500);
-                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 850);
-            }
-            
-            if (pageId === 'poem-page') {
-                const title = page.querySelector('.poem-title');
-                const verses = page.querySelectorAll('.poem-verse');
-                const dividers = page.querySelectorAll('.poem-divider');
-                const btn = page.querySelector('.btn-next');
-                
-                setTimeout(() => { title.style.animation = 'fadeInUp 1s ease forwards'; }, 150);
-                
-                let delay = 500;
-                verses.forEach((verse, index) => {
-                    setTimeout(() => {
-                        verse.style.animation = 'fadeInUp 0.8s ease forwards';
-                    }, delay);
-                    delay += 200;
-                });
+function createBloodDrip(){const c=document.getElementById('blood-container'),d=document.createElement('div');d.classList.add('blood-drip');const x=Math.random()*window.innerWidth,h=Math.random()*250+100,dur=Math.random()*4+2,w=Math.random()*6+3;d.style.left=x+'px';d.style.width=w+'px';d.style.setProperty('--drip-height',h+'px');d.style.animation=`drip ${dur}s linear forwards`;d.style.borderRadius=`0 0 ${w*2}px ${w*2}px`;c.appendChild(d);setTimeout(()=>d.remove(),(dur*1000)+500);}
 
-                dividers.forEach((divider, index) => {
-                    setTimeout(() => {
-                        divider.style.animation = 'fadeIn 0.6s ease forwards';
-                    }, 600 + (index * 400));
-                });
-                
-                setTimeout(() => {
-                    btn.style.animation = 'fadeInUp 1s ease forwards';
-                }, delay + 400);
-            }
-            
-            if (pageId === 'message-page') {
-                const title = page.querySelector('.message-title');
-                const text = page.querySelector('.message-text');
-                const btn = page.querySelector('.btn-final');
-                
-                setTimeout(() => { title.style.animation = 'fadeInUp 1s ease forwards'; }, 150);
-                setTimeout(() => { text.style.animation = 'fadeInUp 1.3s ease forwards'; }, 550);
-                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 1400);
-            }
-            
-            if (pageId === 'final-page') {
-                const title = page.querySelector('.final-title');
-                const date = page.querySelector('.final-date');
-                const btn = page.querySelector('.btn-restart');
-                
-                setTimeout(() => { title.style.animation = 'fadeInUp 1.3s ease forwards'; }, 150);
-                setTimeout(() => { date.style.animation = 'fadeInUp 1s ease forwards'; }, 700);
-                setTimeout(() => { btn.style.animation = 'fadeInUp 1s ease forwards'; }, 1200);
-            }
-        }
+function spawnGlitchLines(n){const c=document.getElementById('glitch-lines');for(let i=0;i<n;i++){const l=document.createElement('div');l.classList.add('glitch-line');l.style.top=(Math.random()*100)+'%';l.style.width=(Math.random()*40+5)+'%';l.style.animationDuration=(Math.random()*0.25+0.05)+'s';c.appendChild(l);setTimeout(()=>l.remove(),500);}}
 
-        function restart() {
-            const transition = document.getElementById('transition');
-            transition.classList.add('active');
-            
-            setTimeout(() => {
-                location.reload();
-            }, 600);
-        }
-    </script>
+function showCracks(){document.getElementById('crack-overlay').style.opacity='1';}
+function hideCracks(){const c=document.getElementById('crack-overlay');c.style.transition='opacity 1.5s';c.style.opacity='0';setTimeout(()=>c.style.transition='',1600);}
+
+const paranoiaMsgs=["انظر خلفك الآن","شيء ما يراقبك","أسمع تنفسك","لا تطفئ الأضواء","أنت لست وحدك","أعرف أين أنت","اقتربت من النهاية"];
+let parIdx=0;
+function showParanoia(){if(isLoggedIn)return;const el=document.getElementById('paranoia-msg');el.textContent=paranoiaMsgs[parIdx%paranoiaMsgs.length];el.style.color='rgba(255,0,0,0.5)';playWhisperSound();setTimeout(()=>el.style.color='rgba(255,0,0,0)',3000);parIdx++;}
+
+const typingMsgs=["أنت... تعرف أن شيئاً ما خطأ هنا.","أغلق الصفحة... إذا كنت تستطيع.","لقد رأيناك... من البداية.","الوقت يقترب... هل أنت مستعد؟","HE IS ALREADY HERE.","DON'T LOOK BEHIND YOU... TOO LATE."];
+let tyIdx=0;
+function triggerTypingOverlay(){
+    if(isLoggedIn)return;
+    const overlay=document.getElementById('typing-overlay'),textEl=document.getElementById('typing-text'),msg=typingMsgs[tyIdx%typingMsgs.length];tyIdx++;
+    overlay.style.display='flex';textEl.textContent='';playTone(120,'sawtooth',0.5,0.1);
+    let i=0;const t=setInterval(()=>{if(i<msg.length){textEl.textContent+=msg[i++];if(Math.random()<0.1)playGlitchSound();}else{clearInterval(t);setTimeout(()=>{overlay.style.transition='opacity 0.8s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';overlay.style.opacity='1';overlay.style.transition='';},850);},2500);}},60);
+}
+
+function showShadowFace(){if(isLoggedIn)return;const f=document.getElementById('shadow-face');f.style.opacity='0.12';f.style.transform='translate(-50%,-50%) scale(1.1)';playTone(60,'sine',1,0.08);setTimeout(()=>{f.style.opacity='0';f.style.transform='translate(-50%,-50%) scale(0.5)';},2000);}
+
+function flashCornerFaces(){if(isLoggedIn)return;['cf-tl','cf-tr','cf-bl','cf-br'].forEach((id,i)=>{setTimeout(()=>{const el=document.getElementById(id);el.style.opacity='0.4';setTimeout(()=>el.style.opacity='0',500);},i*80);});}
+
+function startHeartbeatSound(){let bpm=58;function beat(){if(isLoggedIn)return;playHeartbeat();heartbeatTimer=setTimeout(()=>{if(bpm<95)bpm+=0.4;beat();},60000/bpm);}setTimeout(beat,5000);}
+
+function startHorrorEvents(){
+    setInterval(()=>{if(Math.random()<0.5)createBloodDrip();},1200);
+    let poolH=0;setInterval(()=>{if(poolH<90){poolH+=0.4;document.getElementById('blood-pool').style.height=poolH+'px';}},2000);
+    setInterval(()=>{if(Math.random()<0.35&&!isLoggedIn)spawnGlitchLines(Math.floor(Math.random()*4)+1);},2500);
+    setInterval(()=>{if(Math.random()<0.15)showShadowFace();},7000);
+    setInterval(showParanoia,12000);setTimeout(showParanoia,6000);
+    setInterval(()=>{if(Math.random()<0.25&&!isLoggedIn)triggerTypingOverlay();},25000);
+    setTimeout(()=>{if(!isLoggedIn)triggerTypingOverlay();},15000);
+    setInterval(()=>{if(Math.random()<0.3&&!isLoggedIn)flashCornerFaces();},5000);
+    setInterval(()=>{if(Math.random()<0.2&&!isLoggedIn){const rf=document.getElementById('red-flash');rf.style.animation='flashPulse 1s ease';setTimeout(()=>rf.style.animation='',1050);}},7000);
+    const hbl=document.getElementById('heartbeat-line');let hbOff=0;setInterval(()=>{hbOff-=4;hbl.style.transform=`translateX(${hbOff%200}px)`;},50);
+    setTimeout(()=>{const hbc=document.getElementById('heartbeat-container');hbc.style.opacity='0.5';hbc.style.transition='opacity 2s ease';},4000);
+    setTimeout(()=>document.getElementById('eye-container').style.display='block',6000);
+    startHeartbeatSound();
+    setInterval(()=>{if(Math.random()<0.06&&!isLoggedIn){body.style.animation='distortBody 0.3s ease';setTimeout(()=>body.style.animation='',320);}},15000);
+    setInterval(()=>{if(!isLoggedIn&&Math.random()<0.4)playWhisperSound();},18000);
+    const whispers=["انظر خلفك...","لا تكن وحدك...","نحن هنا...","لا مفر...","اقترب الوقت...","نتنفس معك...","هل تسمعنا؟"];
+    let wi=0;setInterval(()=>{wi=(wi+1)%whispers.length;const wt=document.getElementById('whisper-text');wt.style.opacity='0';wt.style.transition='opacity 2s';setTimeout(()=>{wt.textContent=whispers[wi];},2100);},9000);
+    setInterval(()=>{if(!isLoggedIn&&Math.random()<0.15){drawSplatter(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.3,40);}},8000);
+}
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    const u=document.getElementById('username').value.trim(),p=document.getElementById('password').value.trim();
+    if(u==='لابوبو'&&p==='بالغ'){
+        isLoggedIn=true;clearTimeout(heartbeatTimer);resetHorror();
+        ['eye-container','heartbeat-container','whisper-text','shadow-face','blood-pool','paranoia-msg','investigation-area'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+        document.querySelector('.creepy-bg-text-container').style.display='none';
+        document.querySelector('.game-wrapper').style.display='none';
+        sc2.clearRect(0,0,sc.width,sc.height);
+        showPage('welcome-page');
+    } else {errorCount++;triggerNightmare(errorCount);}
+});
+
+function triggerHint(){
+    playNoise(0.5,0.4);showCracks();spawnGlitchLines(8);
+    for(let i=0;i<10;i++)setTimeout(()=>createBloodDrip(),i*80);
+    const js=document.getElementById('jumpscare'),jst=document.getElementById('jumpscare-text');
+    jst.innerText="LOOK BEHIND YOU";js.style.display='flex';tvNoise.classList.add('static-active');
+    setTimeout(()=>{js.style.display='none';tvNoise.classList.remove('static-active');hideCracks();},700);
+}
+
+function triggerNightmare(count){
+    const errorMsg=document.getElementById('errorMsg');errorMsg.classList.add('show');
+    playNoise(0.6,0.5);showCracks();
+    for(let i=0;i<20;i++)setTimeout(()=>createBloodDrip(),i*60);
+    drawSplatter(window.innerWidth/2,window.innerHeight/2,150);
+    if(count>=3){
+        const jfo=document.getElementById('jumpscare-face-overlay');jfo.style.display='flex';jfo.style.background='#000';
+        let fc=0;const ff=setInterval(()=>{jfo.style.background=jfo.style.background==='#000'?'#ff0000':'#000';fc++;if(fc>10)clearInterval(ff);},80);
+        setTimeout(()=>{jfo.style.display='none';},1200);
+    } else {
+        const js=document.getElementById('jumpscare'),jst=document.getElementById('jumpscare-text');
+        jst.innerText="ACCESS DENIED";jst.style.color="black";js.style.backgroundColor="var(--blood-bright)";js.style.display='flex';
+        flashInterval=setInterval(()=>{js.style.backgroundColor=js.style.backgroundColor==="black"?"var(--blood-bright)":"black";jst.style.color=jst.style.color==="var(--blood-bright)"?"black":"var(--blood-bright)";},70);
+        setTimeout(()=>{clearInterval(flashInterval);js.style.display='none';},1800);
+    }
+    body.classList.add('shake-active');tvNoise.classList.add('static-active');spawnGlitchLines(10);
+    if(audio.src){audio.playbackRate=2.5;audio.preservesPitch=false;}
+    setTimeout(()=>{resetHorror();hideCracks();errorMsg.classList.remove('show');},2200);
+}
+
+function resetHorror(){body.classList.remove('shake-active');tvNoise.classList.remove('static-active');if(audio.src){audio.playbackRate=1.0;audio.preservesPitch=true;}if(flashInterval)clearInterval(flashInterval);}
+
+function showPage(pageId){
+    const t=document.getElementById('transition');t.classList.add('active');
+    setTimeout(()=>{document.querySelectorAll('.page').forEach(p=>p.style.display='none');const tp=document.getElementById(pageId);tp.style.display='flex';window.scrollTo(0,0);setTimeout(()=>{t.classList.remove('active');animatePage(pageId);},200);},800);
+}
+
+function animatePage(pageId){
+    const page=document.getElementById(pageId);
+    if(pageId==='welcome-page'){setTimeout(()=>page.querySelector('.welcome-title').style.animation='fadeInUp 1.2s ease forwards',150);setTimeout(()=>page.querySelector('.welcome-subtitle').style.animation='fadeInUp 1s ease forwards',500);setTimeout(()=>page.querySelector('.btn').style.animation='fadeInUp 1s ease forwards',850);}
+    if(pageId==='poem-page'){setTimeout(()=>page.querySelector('.poem-title').style.animation='fadeInUp 1s ease forwards',150);let delay=500;page.querySelectorAll('.poem-verse').forEach(v=>{setTimeout(()=>v.style.animation='fadeInUp 0.8s ease forwards',delay);delay+=140;});page.querySelectorAll('.poem-divider').forEach((d,i)=>setTimeout(()=>d.style.animation='fadeIn 0.6s ease forwards',600+i*300));setTimeout(()=>page.querySelector('.btn-next').style.animation='fadeInUp 1s ease forwards',delay+200);}
+    if(pageId==='message-page'){setTimeout(()=>page.querySelector('.message-title').style.animation='fadeInUp 1s ease forwards',150);setTimeout(()=>page.querySelector('.message-text').style.animation='fadeInUp 1.3s ease forwards',550);setTimeout(()=>page.querySelector('.btn-final').style.animation='fadeInUp 1s ease forwards',1400);}
+    if(pageId==='final-page'){setTimeout(()=>page.querySelector('.final-title').style.animation='fadeInUp 1.3s ease forwards',150);setTimeout(()=>page.querySelector('.final-date').style.animation='fadeInUp 1s ease forwards',700);setTimeout(()=>page.querySelector('.btn').style.animation='fadeInUp 1s ease forwards',1200);}
+}
+
+function restart(){const t=document.getElementById('transition');t.classList.add('active');setTimeout(()=>location.reload(),800);}
+
+function startCreepyExperience(){
+    getACtx();
+    const ss=document.getElementById("start-screen");ss.style.transition="opacity 2s";ss.style.opacity="0";setTimeout(()=>ss.style.display="none",2000);
+    audio.volume=0.05;audio.play().catch(()=>{});
+    let fi=setInterval(()=>{if(audio.volume<0.4)audio.volume+=0.03;else clearInterval(fi);},1500);
+    startHorrorEvents();
+    setTimeout(()=>{for(let i=0;i<12;i++)setTimeout(()=>createBloodDrip(),i*150);playTone(80,'sawtooth',1.5,0.12);},500);
+    setTimeout(()=>{if(!isLoggedIn)showShadowFace();},8000);
+}
+</script>
 </body>
 </html>
